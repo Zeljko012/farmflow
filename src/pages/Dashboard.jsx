@@ -108,7 +108,7 @@ export default function Dashboard() {
         <div className={styles.sidebarBottom}>
           {/* UPGRADE PROMPT */}
           {plan !== 'expert' && (
-            <div className={styles.upgradeCard} onClick={() => navigate('/pricing')}>
+            <div className={styles.upgradeCard} onClick={() => window.open('https://farmflow-mu.vercel.app/pricing', '_blank')}>
               <div className={styles.upgradeTitle}>Upgrade plan</div>
               <div className={styles.upgradeSub}>Unlock more features</div>
               <div className={styles.upgradeBtn}>View plans →</div>
