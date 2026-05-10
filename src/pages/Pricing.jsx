@@ -9,6 +9,7 @@ const PLANS = [
     monthly: 9.99,
     yearly: 6.66,
     yearlyTotal: 79,
+    checkoutUrl: 'https://farmflow.lemonsqueezy.com/checkout/buy/c9f4ff8e-2c39-4a81-b6d7-d8a8e61a167c',
     features: ['Cost & sale calculator', 'G-Code Generator', 'Unlimited loops', 'Auto-eject optimization', 'All Bambu Lab printers'],
     locked: ['Video lessons', 'Live support'],
     cta: 'Get started',
@@ -20,6 +21,7 @@ const PLANS = [
     yearly: 13.33,
     yearlyTotal: 159,
     popular: true,
+    checkoutUrl: 'https://farmflow.lemonsqueezy.com/checkout/buy/bf88084c-5bbb-4717-a969-f10f52e4222e',
     features: ['Everything in Starter', 'Full video lesson library', 'Business & pricing guides', 'Community access'],
     locked: ['Live 1-on-1 support'],
     cta: 'Get started',
@@ -30,6 +32,7 @@ const PLANS = [
     monthly: 49.99,
     yearly: 33.33,
     yearlyTotal: 399,
+    checkoutUrl: 'https://farmflow.lemonsqueezy.com/checkout/buy/ccd56926-2843-40f7-b3fc-d9d7f8dfcd55',
     features: ['Everything in Pro', 'Live 1-on-1 support sessions', 'Priority email response', 'Private community channel', 'Limited to 20 members', 'Direct founder access'],
     locked: [],
     cta: 'Apply for access',
@@ -88,9 +91,9 @@ export default function Pricing() {
               ))}
             </ul>
 
-            <Link to="/register" className={`${styles.cta} ${plan.popular ? styles.ctaPrimary : ''}`}>
+            <a href={plan.checkoutUrl} target="_blank" rel="noopener noreferrer" className={`${styles.cta} ${plan.popular ? styles.ctaPrimary : ''}`}>
               {plan.cta}
-            </Link>
+            </a>
           </div>
         ))}
       </div>
