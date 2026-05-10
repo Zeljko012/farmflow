@@ -58,14 +58,26 @@ const TOOLS = [
 export default function Dashboard() {
   const { user, profile, plan, signOut } = useAuth()
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState('home')
+  const [activeTab, setActiveTab] = useState(() => {
+    return sessionStorage.getItem('farmflow_tab') || 'home'
+  })
   const features = PLAN_FEATURES[plan] || PLAN_FEATURES.free
   const planInfo = PLAN_LABELS[plan] || PLAN_LABELS.free
   const hasFeature = (f) => !f || features.includes(f)
 
-  // Always go to home on refresh
+  function handleTabChange(tab) {
+    sessionStorage.setItem('farmflow_tab', tab)
+    setActiveTab(tab)
+  }
+
+  // Block back button — always stay on dashboard
   useEffect(() => {
-    setActiveTab('home')
+    window.history.pushState(null, '', window.location.href)
+    const handlePop = () => {
+      window.history.pushState(null, '', window.location.href)
+    }
+    window.addEventListener('popstate', handlePop)
+    return () => window.removeEventListener('popstate', handlePop)
   }, [])
 
   async function handleSignOut() {
@@ -100,7 +112,7 @@ export default function Dashboard() {
             return (
               <button
                 key={tool.id}
-                onClick={() => locked ? navigate('/pricing') : setActiveTab(tool.id)}
+                onClick={() => locked ? navigate('/pricing') : handleTabChange(tool.id)}
                 style={{
                   width: '100%',
                   display: 'flex',
@@ -161,7 +173,7 @@ export default function Dashboard() {
 
       {/* MAIN */}
       <main style={{ overflowY: 'auto', minHeight: '100vh' }}>
-        {activeTab === 'home' && <HomePage plan={plan} planInfo={planInfo} features={features} setActiveTab={setActiveTab} navigate={navigate} profile={profile} />}
+        {activeTab === 'home' && <HomePage plan={plan} planInfo={planInfo} features={features} setActiveTab={handleTabChange} navigate={navigate} profile={profile} />}
         {activeTab === 'generator' && hasFeature('generator') && <GcodeGenerator />}
         {activeTab === 'calculator' && <CostCalculator />}
         {activeTab === 'videos' && hasFeature('videos') && <VideosPage />}
