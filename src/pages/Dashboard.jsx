@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import GcodeGenerator from '../components/generator/GcodeGenerator'
@@ -62,6 +62,11 @@ export default function Dashboard() {
   const features = PLAN_FEATURES[plan] || PLAN_FEATURES.free
   const planInfo = PLAN_LABELS[plan] || PLAN_LABELS.free
   const hasFeature = (f) => !f || features.includes(f)
+
+  // Always go to home on refresh
+  useEffect(() => {
+    setActiveTab('home')
+  }, [])
 
   async function handleSignOut() {
     await signOut()
