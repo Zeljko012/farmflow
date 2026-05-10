@@ -217,7 +217,7 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
   ]
 
   return (
-    <div style={{ padding: '52px 52px', maxWidth: '1000px' }}>
+    <div style={{ padding: '52px', maxWidth: '900px', margin: '0 auto' }}>
       {/* HEADER */}
       <div style={{ marginBottom: '52px' }}>
         <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '10px' }}>Dashboard</div>
@@ -272,7 +272,7 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
 
 function VideosPage() {
   return (
-    <div style={{ padding: '52px', maxWidth: '900px' }}>
+    <div style={{ padding: '52px', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '10px' }}>Pro Feature</div>
       <h2 style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' }}>Video Lessons</h2>
       <p style={{ color: 'var(--muted)', marginBottom: '48px', fontSize: '16px', lineHeight: 1.6, maxWidth: '500px' }}>Step-by-step guides for setting up and optimizing your print farm.</p>
@@ -287,7 +287,7 @@ function VideosPage() {
 
 function SupportPage() {
   return (
-    <div style={{ padding: '52px', maxWidth: '900px' }}>
+    <div style={{ padding: '52px', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '10px' }}>Expert Feature</div>
       <h2 style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' }}>Live Support</h2>
       <p style={{ color: 'var(--muted)', marginBottom: '48px', fontSize: '16px', lineHeight: 1.6, maxWidth: '500px' }}>Direct access to the FarmFlow founder. Get personalized help with any challenge.</p>
