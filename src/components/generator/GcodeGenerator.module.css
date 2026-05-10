@@ -1,0 +1,58 @@
+.wrap { padding: 40px; max-width: 760px; }
+
+.header { margin-bottom: 32px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.title { font-family: var(--serif); font-size: 32px; font-style: italic; letter-spacing: -0.5px; margin-bottom: 8px; }
+.sub { font-size: 14px; color: var(--muted); line-height: 1.6; max-width: 500px; }
+
+.card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 28px; margin-bottom: 16px; }
+.sectionLabel { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+
+.printerGrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
+.pc { border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 8px; cursor: pointer; background: var(--surface2); display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.15s; }
+.pc:hover { border-color: var(--border2); background: var(--white); }
+.sel { border-color: var(--accent) !important; background: var(--accent-light) !important; }
+.pcIcon { font-size: 18px; }
+.pcName { font-size: 13px; font-weight: 500; }
+.pcSpec { font-size: 10px; color: var(--muted); font-family: var(--mono); }
+
+.formRow { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 12px; color: var(--muted); }
+.field input, .field select { padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; color: var(--text); outline: none; transition: border-color 0.2s; width: 100%; }
+.field input:focus, .field select:focus { border-color: var(--accent); background: var(--white); }
+
+.loopRow { display: flex; align-items: center; justify-content: space-between; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; cursor: pointer; transition: all 0.2s; margin-bottom: 20px; }
+.loopOn { background: var(--accent-light) !important; border-color: rgba(212,80,31,0.3) !important; }
+.loopLabel { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.loopDesc { font-size: 12px; color: var(--muted); }
+.tog { width: 38px; height: 21px; background: var(--border2); border-radius: 11px; position: relative; transition: background 0.25s; flex-shrink: 0; }
+.togOn { background: var(--accent) !important; }
+.tog::after { content: ''; position: absolute; width: 15px; height: 15px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: transform 0.25s; }
+.togOn::after { transform: translateX(17px); }
+
+.genBtn { width: 100%; padding: 13px; background: var(--accent); color: white; border: none; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.genBtn:hover { background: #be4519; }
+
+.resultCard { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+.resultHead { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.resultTitle { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+.resultSub { font-size: 12px; color: var(--muted); }
+
+.copyBtn { padding: 9px 16px; background: var(--text); color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
+.copyBtn:hover { background: var(--accent); }
+.copied { background: #2d7a3a !important; }
+
+.gcBox { background: #18170f; border-radius: 10px; padding: 16px; font-family: var(--mono); font-size: 11px; line-height: 1.9; max-height: 260px; overflow-y: auto; margin-bottom: 16px; }
+:global(.gc-comment) { color: #484640; }
+:global(.gc-cmd) { color: #c47a3e; }
+:global(.gc-hi) { color: #e05c2a; font-weight: 500; }
+:global(.gc-ok) { color: #5aaa6a; }
+:global(.gc-str) { color: #6a9fc0; }
+
+.installGuide { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+.installTitle { font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+.installSteps { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.installSteps li { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.installSteps li strong { color: var(--text); }
+.installSteps code { font-family: var(--mono); font-size: 11px; background: var(--border); padding: 2px 6px; border-radius: 4px; }

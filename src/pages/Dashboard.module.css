@@ -1,0 +1,147 @@
+.app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.sidebarTop { flex: 1; }
+.sidebarBottom { padding: 0 12px; }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 0 16px 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.logo em { font-style: normal; color: var(--accent); }
+.logoMark { width: 26px; height: 26px; background: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+
+/* NAV */
+.nav { padding: 8px 12px; }
+.navLabel { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted2); padding: 8px 4px 6px; }
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+}
+.navItem svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.navItem:hover { background: var(--surface2); color: var(--text); }
+.navItem.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+
+.navItemLocked {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--muted2);
+  cursor: pointer;
+  margin-bottom: 2px;
+  transition: all 0.15s;
+  position: relative;
+}
+.navItemLocked svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+.navItemLocked:hover { background: var(--surface2); }
+
+.lockBadge {
+  margin-left: auto;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: var(--muted2);
+}
+
+/* UPGRADE CARD */
+.upgradeCard {
+  background: var(--accent-light);
+  border: 1px solid rgba(212,80,31,0.2);
+  border-radius: 10px;
+  padding: 14px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: all 0.2s;
+}
+.upgradeCard:hover { border-color: var(--accent); }
+.upgradeTitle { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.upgradeSub { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.upgradeBtn { font-size: 12px; color: var(--accent); font-weight: 500; }
+
+/* USER ROW */
+.userRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--surface2);
+  border-radius: 10px;
+}
+.userAvatar {
+  width: 32px; height: 32px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600;
+  flex-shrink: 0;
+}
+.userInfo { flex: 1; min-width: 0; }
+.userName { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.userPlan { font-size: 11px; font-family: var(--mono); }
+.signOutBtn {
+  width: 28px; height: 28px;
+  background: none; border: none;
+  cursor: pointer; color: var(--muted);
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px; transition: all 0.15s; flex-shrink: 0;
+}
+.signOutBtn:hover { background: var(--border); color: var(--text); }
+.signOutBtn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* MAIN */
+.main {
+  overflow-y: auto;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+}
