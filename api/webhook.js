@@ -12,37 +12,53 @@ const PLAN_MAP = {
   'ccd56926-2843-40f7-b3fc-d9d7f8dfcd55': 'expert',
 }
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
+
+async function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = []
+    req.on('data', chunk => chunks.push(chunk))
+    req.on('end', () => resolve(Buffer.concat(chunks)))
+    req.on('error', reject)
+  })
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const secret = process.env.LEMON_SQUEEZY_WEBHOOK_SECRET
-  const signature = req.headers['x-signature']
-
-  // Verify webhook signature
-  const hmac = crypto.createHmac('sha256', secret)
-  const digest = hmac.update(JSON.stringify(req.body)).digest('hex')
-
-  if (signature !== digest) {
-    return res.status(401).json({ error: 'Invalid signature' })
-  }
-
-  const event = req.headers['x-event-name']
-  const data = req.body
-
   try {
-    if (event === 'subscription_created' || event === 'subscription_updated') {
-      const email = data.data.attributes.user_email
-      const variantId = data.data.attributes.variant_id?.toString()
-      const status = data.data.attributes.status
-      const endsAt = data.data.attributes.ends_at
+    const rawBody = await getRawBody(req)
+    const secret = process.env.LEMON_SQUEEZY_WEBHOOK_SECRET
+    const signature = req.headers['x-signature']
 
-      // Find plan from variant ID
+    const hmac = crypto.createHmac('sha256', secret)
+    const digest = hmac.update(rawBody).digest('hex')
+
+    if (signature !== digest) {
+      console.error('Invalid signature', { signature, digest })
+      return res.status(401).json({ error: 'Invalid signature' })
+    }
+
+    const event = req.headers['x-event-name']
+    const data = JSON.parse(rawBody.toString())
+
+    console.log('Webhook event:', event)
+
+    if (event === 'subscription_created' || event === 'subscription_updated') {
+      const email = data.data?.attributes?.user_email
+      const variantId = String(data.data?.attributes?.variant_id || '')
+      const status = data.data?.attributes?.status
+      const endsAt = data.data?.attributes?.ends_at
+
       const plan = PLAN_MAP[variantId] || 'starter'
       const activePlan = status === 'active' ? plan : 'free'
 
-      // Update user profile by email
       const { data: profile } = await supabase
         .from('profiles')
         .select('id')
@@ -52,16 +68,15 @@ export default async function handler(req, res) {
       if (profile) {
         await supabase
           .from('profiles')
-          .update({
-            plan: activePlan,
-            plan_expires_at: endsAt
-          })
+          .update({ plan: activePlan, plan_expires_at: endsAt })
           .eq('id', profile.id)
+
+        console.log('Plan updated:', activePlan, 'for:', email)
       }
     }
 
     if (event === 'subscription_cancelled' || event === 'subscription_expired') {
-      const email = data.data.attributes.user_email
+      const email = data.data?.attributes?.user_email
 
       const { data: profile } = await supabase
         .from('profiles')
@@ -80,6 +95,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ received: true })
   } catch (error) {
     console.error('Webhook error:', error)
-    return res.status(500).json({ error: 'Internal server error' })
+    return res.status(500).json({ error: error.message })
   }
 }
