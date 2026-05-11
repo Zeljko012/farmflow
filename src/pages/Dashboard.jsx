@@ -70,12 +70,13 @@ export default function Dashboard() {
     setActiveTab(tab)
   }
 
-  // Block back button — always stay on dashboard
+  // Back button -> go to home tab
   useEffect(() => {
-    window.history.pushState(null, '', window.location.href)
     const handlePop = () => {
+      handleTabChange('home')
       window.history.pushState(null, '', window.location.href)
     }
+    window.history.pushState(null, '', window.location.href)
     window.addEventListener('popstate', handlePop)
     return () => window.removeEventListener('popstate', handlePop)
   }, [])
