@@ -3,12 +3,14 @@ import { useAuth } from '../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import GcodeGenerator from '../components/generator/GcodeGenerator'
 import CostCalculator from '../components/calculator/CostCalculator'
+import ProfitDashboard from '../components/profit/ProfitDashboard'
+import InventoryTracker from '../components/inventory/InventoryTracker'
 
 const PLAN_FEATURES = {
   free:    ['calculator'],
-  starter: ['calculator', 'generator'],
-  pro:     ['calculator', 'generator', 'videos'],
-  expert:  ['calculator', 'generator', 'videos', 'support'],
+  starter: ['calculator', 'generator', 'profit'],
+  pro:     ['calculator', 'generator', 'profit', 'inventory', 'videos'],
+  expert:  ['calculator', 'generator', 'profit', 'inventory', 'videos', 'support'],
 }
 
 const PLAN_LABELS = {
@@ -38,6 +40,20 @@ const TOOLS = [
     label: 'Cost Calculator',
     feature: 'calculator',
     plan: null,
+  },
+  {
+    id: 'profit',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>,
+    label: 'Profit Dashboard',
+    feature: 'profit',
+    plan: 'Starter+',
+  },
+  {
+    id: 'inventory',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>,
+    label: 'Inventory & Orders',
+    feature: 'inventory',
+    plan: 'Pro+',
   },
   {
     id: 'videos',
@@ -70,7 +86,6 @@ export default function Dashboard() {
     setActiveTab(tab)
   }
 
-  // Back button -> go to home tab
   useEffect(() => {
     const handlePop = () => {
       handleTabChange('home')
@@ -92,7 +107,6 @@ export default function Dashboard() {
       {/* SIDEBAR */}
       <aside style={{ background: 'var(--white)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
 
-        {/* LOGO */}
         <div style={{ padding: '28px 24px 20px', borderBottom: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{ width: '40px', height: '40px', background: 'var(--accent)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>⚡</div>
@@ -103,7 +117,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* NAV */}
         <nav style={{ flex: 1, padding: '20px 16px', overflowY: 'auto' }}>
           <div style={{ fontSize: '10px', fontFamily: 'var(--mono)', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--muted2)', padding: '0 8px', marginBottom: '12px' }}>Menu</div>
 
@@ -115,22 +128,13 @@ export default function Dashboard() {
                 key={tool.id}
                 onClick={() => locked ? navigate('/pricing') : handleTabChange(tool.id)}
                 style={{
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '14px',
-                  padding: '14px 16px',
-                  borderRadius: '12px',
-                  border: 'none',
+                  width: '100%', display: 'flex', alignItems: 'center', gap: '14px',
+                  padding: '14px 16px', borderRadius: '12px', border: 'none',
                   background: isActive ? 'var(--accent-light)' : 'transparent',
                   color: isActive ? 'var(--accent)' : locked ? 'var(--muted2)' : 'var(--text)',
-                  cursor: 'pointer',
-                  marginBottom: '4px',
-                  textAlign: 'left',
-                  transition: 'background 0.15s',
-                  fontFamily: 'var(--font)',
-                  fontSize: '15px',
-                  fontWeight: isActive ? '500' : '400',
+                  cursor: 'pointer', marginBottom: '4px', textAlign: 'left',
+                  transition: 'background 0.15s', fontFamily: 'var(--font)',
+                  fontSize: '15px', fontWeight: isActive ? '500' : '400',
                 }}
                 onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = 'var(--surface2)' }}
                 onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = 'transparent' }}
@@ -145,7 +149,6 @@ export default function Dashboard() {
           })}
         </nav>
 
-        {/* BOTTOM */}
         <div style={{ padding: '16px', borderTop: '1px solid var(--border)' }}>
           {plan !== 'expert' && (
             <div
@@ -174,11 +177,13 @@ export default function Dashboard() {
 
       {/* MAIN */}
       <main style={{ overflowY: 'auto', minHeight: '100vh' }}>
-        {activeTab === 'home' && <HomePage plan={plan} planInfo={planInfo} features={features} setActiveTab={handleTabChange} navigate={navigate} profile={profile} />}
+        {activeTab === 'home'      && <HomePage plan={plan} planInfo={planInfo} features={features} setActiveTab={handleTabChange} navigate={navigate} profile={profile} />}
         {activeTab === 'generator' && hasFeature('generator') && <GcodeGenerator />}
         {activeTab === 'calculator' && <CostCalculator />}
-        {activeTab === 'videos' && hasFeature('videos') && <VideosPage />}
-        {activeTab === 'support' && hasFeature('support') && <SupportPage />}
+        {activeTab === 'profit'    && hasFeature('profit') && <ProfitDashboard />}
+        {activeTab === 'inventory' && hasFeature('inventory') && <InventoryTracker />}
+        {activeTab === 'videos'    && hasFeature('videos') && <VideosPage />}
+        {activeTab === 'support'   && hasFeature('support') && <SupportPage />}
       </main>
     </div>
   )
@@ -202,7 +207,7 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
       id: 'generator',
       emoji: '⚡',
       title: 'G-Code Generator',
-      desc: 'Paste our code once into Bambu Studio. Every print — whatever you\'re printing — ejects automatically when done. Walk away, come back to finished parts.',
+      desc: 'Paste our code once into Bambu Studio. Every print ejects automatically when done — whatever you\'re printing.',
       available: hasFeature('generator'),
       cta: hasFeature('generator') ? 'Open Generator' : 'Upgrade to Starter',
       color: '#d4501f',
@@ -210,14 +215,36 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
       plan: 'Starter+',
     },
     {
+      id: 'profit',
+      emoji: '📈',
+      title: 'Profit Dashboard',
+      desc: 'Track daily sales with full cost breakdown — print, packaging, shipping, platform fees and ad spend. See your real profit per day and month.',
+      available: hasFeature('profit'),
+      cta: hasFeature('profit') ? 'Open Dashboard' : 'Upgrade to Starter',
+      color: '#2563eb',
+      bg: '#eff6ff',
+      plan: 'Starter+',
+    },
+    {
+      id: 'inventory',
+      emoji: '🧵',
+      title: 'Inventory & Orders',
+      desc: 'Track all your filament spools by type, brand and color. Get low stock alerts and manage your order list in one place.',
+      available: hasFeature('inventory'),
+      cta: hasFeature('inventory') ? 'Open Inventory' : 'Upgrade to Pro',
+      color: '#7c3aed',
+      bg: '#f5f3ff',
+      plan: 'Pro+',
+    },
+    {
       id: 'videos',
       emoji: '🎬',
       title: 'Video Lessons',
-      desc: 'Step-by-step video guides for setting up and scaling your 3D print business. From first print to fully automated production.',
+      desc: 'Step-by-step video guides for setting up and scaling your 3D print business.',
       available: hasFeature('videos'),
       cta: hasFeature('videos') ? 'Watch Lessons' : 'Upgrade to Pro',
-      color: '#2563eb',
-      bg: '#eff6ff',
+      color: '#0891b2',
+      bg: '#ecfeff',
       plan: 'Pro+',
       comingSoon: true,
     },
@@ -235,8 +262,7 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
   ]
 
   return (
-    <div style={{ padding: '52px', maxWidth: '900px', margin: '0 auto' }}>
-      {/* HEADER */}
+    <div style={{ padding: '52px', maxWidth: '1000px', margin: '0 auto' }}>
       <div style={{ marginBottom: '52px' }}>
         <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '10px' }}>Dashboard</div>
         <h1 style={{ fontFamily: 'var(--serif)', fontSize: '48px', fontStyle: 'italic', letterSpacing: '-1.5px', marginBottom: '12px', lineHeight: 1.05, color: 'var(--text)' }}>
@@ -251,10 +277,10 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
         </div>
       </div>
 
-      {/* CARDS */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
         {cards.map(card => (
-          <div key={card.id} style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '36px', position: 'relative', transition: 'all 0.2s', cursor: 'pointer' }}
+          <div key={card.id}
+            style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '36px', position: 'relative', transition: 'all 0.2s', cursor: 'pointer' }}
             onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.09)' }}
             onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none' }}
           >
@@ -269,10 +295,8 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
                 <span style={{ fontSize: '11px', fontFamily: 'var(--mono)', background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px', padding: '3px 9px', color: '#2563eb' }}>Soon</span>
               )}
             </div>
-
             <h3 style={{ fontSize: '22px', fontWeight: '600', letterSpacing: '-0.4px', marginBottom: '10px', color: 'var(--text)' }}>{card.title}</h3>
             <p style={{ fontSize: '14px', color: 'var(--muted)', lineHeight: '1.7', marginBottom: '28px', fontWeight: '300' }}>{card.desc}</p>
-
             <button
               onClick={() => card.available ? setActiveTab(card.id) : navigate('/pricing')}
               style={{ padding: '12px 24px', background: card.available ? card.color : 'var(--surface2)', color: card.available ? 'white' : 'var(--muted)', border: card.available ? 'none' : '1px solid var(--border)', borderRadius: '10px', fontSize: '14px', fontWeight: '500', cursor: 'pointer', fontFamily: 'var(--font)', transition: 'opacity 0.15s' }}
