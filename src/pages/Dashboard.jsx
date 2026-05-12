@@ -85,6 +85,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState(() => {
     return sessionStorage.getItem('farmflow_tab') || 'home'
   })
+  const [sidebarOpen, setSidebarOpen] = useState(false)
   const features = PLAN_FEATURES[plan] || PLAN_FEATURES.free
   const planInfo = PLAN_LABELS[plan] || PLAN_LABELS.free
   const hasFeature = (f) => !f || features.includes(f)
@@ -92,6 +93,7 @@ export default function Dashboard() {
   function handleTabChange(tab) {
     sessionStorage.setItem('farmflow_tab', tab)
     setActiveTab(tab)
+    setSidebarOpen(false)
   }
 
   useEffect(() => {
@@ -104,97 +106,173 @@ export default function Dashboard() {
     return () => window.removeEventListener('popstate', handlePop)
   }, [])
 
+  // Lock body scroll when sidebar is open on mobile
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [sidebarOpen])
+
   async function handleSignOut() {
     await signOut()
     navigate('/')
   }
 
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', minHeight: '100vh', background: 'var(--bg)' }}>
-
-      {/* SIDEBAR */}
-      <aside style={{ background: 'var(--white)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh', overflow: 'hidden' }}>
-
-        <div style={{ padding: '28px 24px 20px', borderBottom: '1px solid var(--border)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{ width: '40px', height: '40px', background: 'var(--accent)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>⚡</div>
-            <div>
-              <div style={{ fontSize: '19px', fontWeight: '600', color: 'var(--text)', letterSpacing: '-0.3px' }}>Farm<span style={{ color: 'var(--accent)' }}>Flow</span></div>
-              <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '1px', fontFamily: 'var(--mono)' }}>3D Print Automation</div>
-            </div>
+  const SidebarContent = () => (
+    <>
+      <div style={{ padding: '24px 24px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ width: '40px', height: '40px', background: 'var(--accent)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>⚡</div>
+          <div>
+            <div style={{ fontSize: '19px', fontWeight: '600', color: 'var(--text)', letterSpacing: '-0.3px' }}>Farm<span style={{ color: 'var(--accent)' }}>Flow</span></div>
+            <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '1px', fontFamily: 'var(--mono)' }}>3D Print Automation</div>
           </div>
         </div>
+        {/* Close button — mobile only */}
+        <button
+          onClick={() => setSidebarOpen(false)}
+          style={{ display: 'none', width: '32px', height: '32px', background: 'none', border: '1px solid var(--border)', borderRadius: '8px', cursor: 'pointer', fontSize: '18px', color: 'var(--muted)', alignItems: 'center', justifyContent: 'center' }}
+          className="mobile-close-btn"
+        >✕</button>
+      </div>
 
-        <nav style={{ flex: 1, padding: '20px 16px', overflowY: 'auto' }}>
-          <div style={{ fontSize: '10px', fontFamily: 'var(--mono)', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--muted2)', padding: '0 8px', marginBottom: '12px' }}>Menu</div>
-
-          {TOOLS.map(tool => {
-            const locked = tool.feature && !hasFeature(tool.feature)
-            const isActive = activeTab === tool.id
-            return (
-              <button
-                key={tool.id}
-                onClick={() => locked ? navigate('/pricing') : handleTabChange(tool.id)}
-                style={{
-                  width: '100%', display: 'flex', alignItems: 'center', gap: '14px',
-                  padding: '14px 16px', borderRadius: '12px', border: 'none',
-                  background: isActive ? 'var(--accent-light)' : 'transparent',
-                  color: isActive ? 'var(--accent)' : locked ? 'var(--muted2)' : 'var(--text)',
-                  cursor: 'pointer', marginBottom: '4px', textAlign: 'left',
-                  transition: 'background 0.15s', fontFamily: 'var(--font)',
-                  fontSize: '15px', fontWeight: isActive ? '500' : '400',
-                }}
-                onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = 'var(--surface2)' }}
-                onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = 'transparent' }}
-              >
-                <span style={{ width: '22px', height: '22px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: locked ? 0.4 : 1 }}>{tool.icon}</span>
-                <span style={{ flex: 1 }}>{tool.label}</span>
-                {locked && (
-                  <span style={{ fontSize: '10px', fontFamily: 'var(--mono)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '4px', padding: '2px 7px', color: 'var(--muted)', flexShrink: 0 }}>{tool.plan}</span>
-                )}
-              </button>
-            )
-          })}
-        </nav>
-
-        <div style={{ padding: '16px', borderTop: '1px solid var(--border)' }}>
-          {plan !== 'expert' && (
-            <div
-              onClick={() => window.open('https://farmflow-mu.vercel.app/pricing', '_blank')}
-              style={{ background: 'linear-gradient(135deg, #d4501f 0%, #e8733d 100%)', borderRadius: '12px', padding: '16px', cursor: 'pointer', marginBottom: '12px', color: 'white' }}
+      <nav style={{ flex: 1, padding: '20px 16px', overflowY: 'auto' }}>
+        <div style={{ fontSize: '10px', fontFamily: 'var(--mono)', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--muted2)', padding: '0 8px', marginBottom: '12px' }}>Menu</div>
+        {TOOLS.map(tool => {
+          const locked = tool.feature && !hasFeature(tool.feature)
+          const isActive = activeTab === tool.id
+          return (
+            <button
+              key={tool.id}
+              onClick={() => locked ? navigate('/pricing') : handleTabChange(tool.id)}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', gap: '14px',
+                padding: '14px 16px', borderRadius: '12px', border: 'none',
+                background: isActive ? 'var(--accent-light)' : 'transparent',
+                color: isActive ? 'var(--accent)' : locked ? 'var(--muted2)' : 'var(--text)',
+                cursor: 'pointer', marginBottom: '4px', textAlign: 'left',
+                transition: 'background 0.15s', fontFamily: 'var(--font)',
+                fontSize: '15px', fontWeight: isActive ? '500' : '400',
+              }}
             >
-              <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '3px' }}>🚀 Upgrade plan</div>
-              <div style={{ fontSize: '12px', opacity: 0.85, marginBottom: '10px' }}>Unlock all features</div>
-              <div style={{ fontSize: '12px', fontWeight: '500', background: 'rgba(255,255,255,0.2)', borderRadius: '6px', padding: '5px 10px', display: 'inline-block' }}>View plans →</div>
-            </div>
-          )}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', background: 'var(--surface2)', borderRadius: '10px' }}>
-            <div style={{ width: '38px', height: '38px', background: 'var(--accent)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: '600', flexShrink: 0 }}>
-              {(profile?.full_name || user?.email || 'U')[0].toUpperCase()}
-            </div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: '14px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name || user?.email?.split('@')[0] || 'User'}</div>
-              <div style={{ fontSize: '11px', color: planInfo.color, fontFamily: 'var(--mono)', fontWeight: '500' }}>{planInfo.label} plan</div>
-            </div>
-            <button onClick={handleSignOut} title="Sign out" style={{ width: '32px', height: '32px', background: 'none', border: '1px solid var(--border)', borderRadius: '7px', cursor: 'pointer', color: 'var(--muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <span style={{ width: '22px', height: '22px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: locked ? 0.4 : 1 }}>{tool.icon}</span>
+              <span style={{ flex: 1 }}>{tool.label}</span>
+              {locked && (
+                <span style={{ fontSize: '10px', fontFamily: 'var(--mono)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '4px', padding: '2px 7px', color: 'var(--muted)', flexShrink: 0 }}>{tool.plan}</span>
+              )}
             </button>
+          )
+        })}
+      </nav>
+
+      <div style={{ padding: '16px', borderTop: '1px solid var(--border)' }}>
+        {plan !== 'expert' && (
+          <div
+            onClick={() => { window.open('https://farmflow-mu.vercel.app/pricing', '_blank'); setSidebarOpen(false) }}
+            style={{ background: 'linear-gradient(135deg, #d4501f 0%, #e8733d 100%)', borderRadius: '12px', padding: '16px', cursor: 'pointer', marginBottom: '12px', color: 'white' }}
+          >
+            <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '3px' }}>🚀 Upgrade plan</div>
+            <div style={{ fontSize: '12px', opacity: 0.85, marginBottom: '10px' }}>Unlock all features</div>
+            <div style={{ fontSize: '12px', fontWeight: '500', background: 'rgba(255,255,255,0.2)', borderRadius: '6px', padding: '5px 10px', display: 'inline-block' }}>View plans →</div>
+          </div>
+        )}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', background: 'var(--surface2)', borderRadius: '10px' }}>
+          <div style={{ width: '38px', height: '38px', background: 'var(--accent)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: '600', flexShrink: 0 }}>
+            {(profile?.full_name || user?.email || 'U')[0].toUpperCase()}
+          </div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: '14px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name || user?.email?.split('@')[0] || 'User'}</div>
+            <div style={{ fontSize: '11px', color: planInfo.color, fontFamily: 'var(--mono)', fontWeight: '500' }}>{planInfo.label} plan</div>
+          </div>
+          <button onClick={handleSignOut} title="Sign out" style={{ width: '32px', height: '32px', background: 'none', border: '1px solid var(--border)', borderRadius: '7px', cursor: 'pointer', color: 'var(--muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+    </>
+  )
+
+  return (
+    <>
+      <style>{`
+        @media (max-width: 768px) {
+          .ff-desktop-sidebar { display: none !important; }
+          .ff-mobile-topbar { display: flex !important; }
+          .ff-main { padding-top: 56px; }
+          .mobile-close-btn { display: flex !important; }
+        }
+        @media (min-width: 769px) {
+          .ff-mobile-topbar { display: none !important; }
+          .ff-mobile-overlay { display: none !important; }
+        }
+      `}</style>
+
+      <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg)' }}>
+
+        {/* DESKTOP SIDEBAR */}
+        <aside className="ff-desktop-sidebar" style={{ width: '280px', background: 'var(--white)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', flexShrink: 0 }}>
+          <SidebarContent />
+        </aside>
+
+        {/* MOBILE OVERLAY */}
+        {sidebarOpen && (
+          <div
+            className="ff-mobile-overlay"
+            onClick={() => setSidebarOpen(false)}
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 99 }}
+          />
+        )}
+
+        {/* MOBILE SIDEBAR DRAWER */}
+        <aside
+          className="ff-mobile-overlay"
+          style={{
+            position: 'fixed', top: 0, left: 0, width: '280px', height: '100vh',
+            background: 'var(--white)', zIndex: 100, display: 'flex', flexDirection: 'column',
+            overflow: 'hidden', transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
+            transition: 'transform 0.25s ease', boxShadow: '4px 0 20px rgba(0,0,0,0.1)',
+          }}
+        >
+          <SidebarContent />
+        </aside>
+
+        {/* MOBILE TOP BAR */}
+        <div className="ff-mobile-topbar" style={{ display: 'none', position: 'fixed', top: 0, left: 0, right: 0, height: '56px', background: 'var(--white)', borderBottom: '1px solid var(--border)', zIndex: 50, alignItems: 'center', justifyContent: 'space-between', padding: '0 16px' }}>
+          <button
+            onClick={() => setSidebarOpen(true)}
+            style={{ width: '40px', height: '40px', background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '5px', padding: '8px' }}
+          >
+            <span style={{ width: '22px', height: '2px', background: 'var(--text)', borderRadius: '2px' }}></span>
+            <span style={{ width: '22px', height: '2px', background: 'var(--text)', borderRadius: '2px' }}></span>
+            <span style={{ width: '22px', height: '2px', background: 'var(--text)', borderRadius: '2px' }}></span>
+          </button>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '17px', fontWeight: '600' }}>
+            <div style={{ width: '28px', height: '28px', background: 'var(--accent)', borderRadius: '7px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px' }}>⚡</div>
+            Farm<span style={{ color: 'var(--accent)' }}>Flow</span>
+          </div>
+
+          <div style={{ width: '40px', height: '40px', background: 'var(--accent)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: '600' }}>
+            {(profile?.full_name || user?.email || 'U')[0].toUpperCase()}
           </div>
         </div>
-      </aside>
 
-      {/* MAIN */}
-      <main style={{ overflowY: 'auto', minHeight: '100vh' }}>
-        {activeTab === 'home'      && <HomePage plan={plan} planInfo={planInfo} features={features} setActiveTab={handleTabChange} navigate={navigate} profile={profile} />}
-        {activeTab === 'generator' && hasFeature('generator') && <GcodeGenerator />}
-        {activeTab === 'calculator' && <CostCalculator />}
-        {activeTab === 'profit'    && hasFeature('profit') && <ProfitDashboard />}
-        {activeTab === 'inventory' && hasFeature('inventory') && <InventoryTracker />}
-        {activeTab === 'orders'    && hasFeature('orders') && <OrderManagement />}
-        {activeTab === 'videos'    && hasFeature('videos') && <VideosPage />}
-        {activeTab === 'support'   && hasFeature('support') && <SupportPage />}
-      </main>
-    </div>
+        {/* MAIN CONTENT */}
+        <main className="ff-main" style={{ flex: 1, overflowY: 'auto', minHeight: '100vh' }}>
+          {activeTab === 'home'      && <HomePage plan={plan} planInfo={planInfo} features={features} setActiveTab={handleTabChange} navigate={navigate} profile={profile} />}
+          {activeTab === 'generator' && hasFeature('generator') && <GcodeGenerator />}
+          {activeTab === 'calculator' && <CostCalculator />}
+          {activeTab === 'profit'    && hasFeature('profit') && <ProfitDashboard />}
+          {activeTab === 'inventory' && hasFeature('inventory') && <InventoryTracker />}
+          {activeTab === 'orders'    && hasFeature('orders') && <OrderManagement />}
+          {activeTab === 'videos'    && hasFeature('videos') && <VideosPage />}
+          {activeTab === 'support'   && hasFeature('support') && <SupportPage />}
+        </main>
+      </div>
+    </>
   )
 }
 
@@ -282,13 +360,13 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
   ]
 
   return (
-    <div style={{ padding: '52px', maxWidth: '1000px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '52px' }}>
+    <div style={{ padding: 'clamp(24px, 5vw, 52px)', maxWidth: '1000px', margin: '0 auto' }}>
+      <div style={{ marginBottom: '40px' }}>
         <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '10px' }}>Dashboard</div>
-        <h1 style={{ fontFamily: 'var(--serif)', fontSize: '48px', fontStyle: 'italic', letterSpacing: '-1.5px', marginBottom: '12px', lineHeight: 1.05, color: 'var(--text)' }}>
+        <h1 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(32px, 6vw, 48px)', fontStyle: 'italic', letterSpacing: '-1.5px', marginBottom: '12px', lineHeight: 1.05, color: 'var(--text)' }}>
           Welcome back{profile?.full_name ? `, ${profile.full_name}` : ''}
         </h1>
-        <p style={{ fontSize: '17px', color: 'var(--muted)', fontWeight: '300', maxWidth: '480px', lineHeight: 1.6 }}>
+        <p style={{ fontSize: '16px', color: 'var(--muted)', fontWeight: '300', maxWidth: '480px', lineHeight: 1.6 }}>
           Your print farm automation hub. Choose a tool to get started.
         </p>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginTop: '20px', padding: '9px 18px', background: planInfo.bg, border: `1px solid ${planInfo.color}30`, borderRadius: '100px', fontSize: '13px', color: planInfo.color, fontWeight: '500' }}>
@@ -297,7 +375,7 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
         {cards.map(card => (
           <div key={card.id}
             style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '36px', position: 'relative', transition: 'all 0.2s', cursor: 'pointer' }}
