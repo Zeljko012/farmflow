@@ -5,12 +5,13 @@ import GcodeGenerator from '../components/generator/GcodeGenerator'
 import CostCalculator from '../components/calculator/CostCalculator'
 import ProfitDashboard from '../components/profit/ProfitDashboard'
 import InventoryTracker from '../components/inventory/InventoryTracker'
+import OrderManagement from '../components/orders/OrderManagement'
 
 const PLAN_FEATURES = {
   free:    ['calculator'],
   starter: ['calculator', 'generator', 'profit'],
-  pro:     ['calculator', 'generator', 'profit', 'inventory', 'videos'],
-  expert:  ['calculator', 'generator', 'profit', 'inventory', 'videos', 'support'],
+  pro:     ['calculator', 'generator', 'profit', 'inventory', 'orders', 'videos'],
+  expert:  ['calculator', 'generator', 'profit', 'inventory', 'orders', 'videos', 'support'],
 }
 
 const PLAN_LABELS = {
@@ -53,6 +54,13 @@ const TOOLS = [
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>,
     label: 'Inventory & Orders',
     feature: 'inventory',
+    plan: 'Pro+',
+  },
+  {
+    id: 'orders',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"/><path d="M16.5 9.4 7.55 4.24"/><polyline points="3.29 7 12 12 20.71 7"/><line x1="12" y1="22" x2="12" y2="12"/><circle cx="18.5" cy="15.5" r="2.5"/><path d="M20.27 17.27 22 19"/></svg>,
+    label: 'Order Management',
+    feature: 'orders',
     plan: 'Pro+',
   },
   {
@@ -182,6 +190,7 @@ export default function Dashboard() {
         {activeTab === 'calculator' && <CostCalculator />}
         {activeTab === 'profit'    && hasFeature('profit') && <ProfitDashboard />}
         {activeTab === 'inventory' && hasFeature('inventory') && <InventoryTracker />}
+        {activeTab === 'orders'    && hasFeature('orders') && <OrderManagement />}
         {activeTab === 'videos'    && hasFeature('videos') && <VideosPage />}
         {activeTab === 'support'   && hasFeature('support') && <SupportPage />}
       </main>
@@ -234,6 +243,17 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
       cta: hasFeature('inventory') ? 'Open Inventory' : 'Upgrade to Pro',
       color: '#7c3aed',
       bg: '#f5f3ff',
+      plan: 'Pro+',
+    },
+    {
+      id: 'orders',
+      emoji: '📦',
+      title: 'Order Management',
+      desc: 'Create shipments, track deliveries, print shipping labels and manage your entire dispatch workflow in one place.',
+      available: hasFeature('orders'),
+      cta: hasFeature('orders') ? 'Open Orders' : 'Upgrade to Pro',
+      color: '#0891b2',
+      bg: '#ecfeff',
       plan: 'Pro+',
     },
     {
@@ -350,4 +370,3 @@ function SupportPage() {
     </div>
   )
 }
-
