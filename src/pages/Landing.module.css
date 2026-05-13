@@ -9,11 +9,12 @@
 .navSignIn { color: var(--muted); }
 .navCta { background: var(--text); color: white !important; padding: 9px 20px; border-radius: 100px; font-weight: 500; }
 
-/* Hide Pricing and Sign in on mobile — keep only Get started */
+/* Mobile nav — all links visible but compact */
 @media (max-width: 600px) {
-  .nav { padding: 0 20px; }
+  .nav { padding: 0 16px; height: 56px; }
   .navPricing { display: none; }
-  .navSignIn { display: none; }
+  .navSignIn { font-size: 13px; }
+  .navCta { padding: 8px 14px; font-size: 13px; }
 }
 
 .hero { text-align: center; padding: 80px 24px 64px; max-width: 800px; margin: 0 auto; }
