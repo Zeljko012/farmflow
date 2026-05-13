@@ -187,10 +187,15 @@ export default function Dashboard() {
             <div style={{ fontSize: '14px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name || user?.email?.split('@')[0] || 'User'}</div>
             <div style={{ fontSize: '11px', color: planInfo.color, fontFamily: 'var(--mono)', fontWeight: '500' }}>{planInfo.label} plan</div>
           </div>
-          <button onClick={handleSignOut} title="Sign out" style={{ width: '32px', height: '32px', background: 'none', border: '1px solid var(--border)', borderRadius: '7px', cursor: 'pointer', color: 'var(--muted)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          </button>
         </div>
+
+        <button
+          onClick={handleSignOut}
+          style={{ marginTop: '8px', width: '100%', padding: '11px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '9px', cursor: 'pointer', color: 'var(--muted)', fontSize: '14px', fontFamily: 'var(--font)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Sign out
+        </button>
       </div>
     </>
   )
@@ -255,13 +260,8 @@ export default function Dashboard() {
             Farm<span style={{ color: 'var(--accent)' }}>Flow</span>
           </div>
 
-          <button
-            onClick={handleSignOut}
-            title="Sign out"
-            style={{ width: '40px', height: '40px', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--muted)' }}
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          </button>
+          {/* Empty spacer to keep logo centered */}
+          <div style={{ width: '40px' }} />
         </div>
 
         {/* MAIN CONTENT */}
