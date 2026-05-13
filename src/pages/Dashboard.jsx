@@ -255,9 +255,13 @@ export default function Dashboard() {
             Farm<span style={{ color: 'var(--accent)' }}>Flow</span>
           </div>
 
-          <div style={{ width: '40px', height: '40px', background: 'var(--accent)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: '600' }}>
-            {(profile?.full_name || user?.email || 'U')[0].toUpperCase()}
-          </div>
+          <button
+            onClick={handleSignOut}
+            title="Sign out"
+            style={{ width: '40px', height: '40px', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--muted)' }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
         </div>
 
         {/* MAIN CONTENT */}
@@ -412,11 +416,11 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
 
 function VideosPage() {
   return (
-    <div style={{ padding: '52px', maxWidth: '900px', margin: '0 auto' }}>
+    <div style={{ padding: 'clamp(24px, 5vw, 52px)', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '10px' }}>Pro Feature</div>
-      <h2 style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' }}>Video Lessons</h2>
-      <p style={{ color: 'var(--muted)', marginBottom: '48px', fontSize: '16px', lineHeight: 1.6, maxWidth: '500px' }}>Step-by-step guides for setting up and optimizing your print farm.</p>
-      <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '80px', textAlign: 'center' }}>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 5vw, 44px)', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' }}>Video Lessons</h2>
+      <p style={{ color: 'var(--muted)', marginBottom: '48px', fontSize: '15px', lineHeight: 1.6, maxWidth: '500px' }}>Step-by-step guides for setting up and optimizing your print farm.</p>
+      <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '60px 24px', textAlign: 'center' }}>
         <div style={{ fontSize: '56px', marginBottom: '20px' }}>🎬</div>
         <div style={{ fontSize: '22px', fontWeight: '600', marginBottom: '10px' }}>Coming soon</div>
         <div style={{ fontSize: '15px', color: 'var(--muted)', maxWidth: '360px', margin: '0 auto', lineHeight: 1.6 }}>Video lessons are being recorded and will be available shortly.</div>
@@ -427,18 +431,18 @@ function VideosPage() {
 
 function SupportPage() {
   return (
-    <div style={{ padding: '52px', maxWidth: '900px', margin: '0 auto' }}>
+    <div style={{ padding: 'clamp(24px, 5vw, 52px)', maxWidth: '900px', margin: '0 auto' }}>
       <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '10px' }}>Expert Feature</div>
-      <h2 style={{ fontFamily: 'var(--serif)', fontSize: '44px', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' }}>Live Support</h2>
-      <p style={{ color: 'var(--muted)', marginBottom: '48px', fontSize: '16px', lineHeight: 1.6, maxWidth: '500px' }}>Direct access to the FarmFlow founder. Get personalized help with any challenge.</p>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-        <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '36px' }}>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 5vw, 44px)', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' }}>Live Support</h2>
+      <p style={{ color: 'var(--muted)', marginBottom: '48px', fontSize: '15px', lineHeight: 1.6, maxWidth: '500px' }}>Direct access to the FarmFlow founder. Get personalized help with any challenge.</p>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+        <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '32px' }}>
           <div style={{ fontSize: '40px', marginBottom: '16px' }}>📧</div>
           <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>Email Support</div>
           <div style={{ fontSize: '14px', color: 'var(--muted)', marginBottom: '24px', lineHeight: 1.65 }}>Send your question and get a detailed response within 24 hours.</div>
           <a href="mailto:proviczeljko@gmail.com" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'var(--accent)', color: 'white', borderRadius: '10px', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>Send email →</a>
         </div>
-        <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '36px' }}>
+        <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '32px' }}>
           <div style={{ fontSize: '40px', marginBottom: '16px' }}>📅</div>
           <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>Book a Session</div>
           <div style={{ fontSize: '14px', color: 'var(--muted)', marginBottom: '24px', lineHeight: 1.65 }}>Schedule a 1-on-1 video call to solve your problem in real time.</div>
