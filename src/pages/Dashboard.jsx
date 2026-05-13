@@ -185,17 +185,16 @@ export default function Dashboard() {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: '14px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name || user?.email?.split('@')[0] || 'User'}</div>
-            <div style={{ fontSize: '11px', color: planInfo.color, fontFamily: 'var(--mono)', fontWeight: '500' }}>{planInfo.label} plan</div>
+            <div style={{ fontSize: '11px', color: planInfo.color, fontFamily: 'var(--mono)', fontWeight: '500', marginBottom: '4px' }}>{planInfo.label} plan</div>
+            <button
+              onClick={handleSignOut}
+              style={{ background: 'transparent', border: 'none', padding: '0', cursor: 'pointer', color: 'var(--muted)', fontSize: '11px', fontFamily: 'var(--font)', display: 'flex', alignItems: 'center', gap: '4px' }}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign out
+            </button>
           </div>
         </div>
-
-        <button
-          onClick={handleSignOut}
-          style={{ marginTop: '8px', width: '100%', padding: '11px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '9px', cursor: 'pointer', color: 'var(--muted)', fontSize: '14px', fontFamily: 'var(--font)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-          Sign out
-        </button>
       </div>
     </>
   )
