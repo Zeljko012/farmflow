@@ -5,13 +5,13 @@ export default function Landing() {
   return (
     <div className={styles.page}>
       <nav className={styles.nav}>
-        <div className={styles.logo}>
+        <Link to="/" className={styles.logo}>
           <div className={styles.logoMark}>⚡</div>
           <span>Farm<em>Flow</em></span>
-        </div>
+        </Link>
         <div className={styles.navLinks}>
-          <Link to="/pricing">Pricing</Link>
-          <Link to="/login">Sign in</Link>
+          <Link to="/pricing" className={styles.navPricing}>Pricing</Link>
+          <Link to="/login" className={styles.navSignIn}>Sign in</Link>
           <Link to="/register" className={styles.navCta}>Get started</Link>
         </div>
       </nav>
@@ -42,7 +42,7 @@ export default function Landing() {
         <div className={styles.featureCard}>
           <div className={styles.featureIcon}>⚡</div>
           <h3>Auto-eject, every time</h3>
-          <p>Paste our G-code once into Bambu Studio. Every print — no matter what you're printing — automatically ejects when the cooling is done. No babysitting required.</p>
+          <p>Paste our G-code once into Bambu Studio. Every print ejects automatically when the cooling is done. No babysitting required.</p>
         </div>
         <div className={styles.featureCard}>
           <div className={styles.featureIcon}>💰</div>
@@ -52,7 +52,7 @@ export default function Landing() {
         <div className={styles.featureCard}>
           <div className={styles.featureIcon}>📈</div>
           <h3>Price to profit</h3>
-          <p>Enter your target margin and FarmFlow tells you exactly what to charge and how many units you need to hit your monthly income goal.</p>
+          <p>Enter your target margin and FarmFlow tells you exactly what to charge and how many units you need to hit your monthly goal.</p>
         </div>
       </section>
 
