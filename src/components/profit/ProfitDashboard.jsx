@@ -10,37 +10,40 @@ function dateToLong(k) { const d = new Date(k + 'T12:00:00'); return d.toLocaleD
 function gn(v) { return parseFloat(v) || 0 }
 
 const css = {
-  wrap: { padding: '52px', maxWidth: '900px', margin: '0 auto' },
+  wrap: { padding: 'clamp(20px, 5vw, 52px)', maxWidth: '900px', margin: '0 auto' },
   eyebrow: { fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: '10px' },
-  title: { fontFamily: 'var(--serif)', fontSize: '44px', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' },
-  sub: { color: 'var(--muted)', marginBottom: '40px', fontSize: '16px', lineHeight: 1.6, maxWidth: '500px', fontWeight: '300' },
-  metrics: { display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '12px', marginBottom: '20px' },
-  metric: { background: 'var(--surface2)', borderRadius: '12px', padding: '16px' },
+  title: { fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 5vw, 44px)', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' },
+  sub: { color: 'var(--muted)', marginBottom: '40px', fontSize: '15px', lineHeight: 1.6, maxWidth: '500px', fontWeight: '300' },
+  metrics: { display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: '10px', marginBottom: '16px' },
+  metricsWide: { display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '10px', marginBottom: '16px' },
+  metric: { background: 'var(--surface2)', borderRadius: '12px', padding: '14px' },
   mLabel: { fontSize: '12px', color: 'var(--muted)', marginBottom: '6px' },
-  mVal: (c) => ({ fontSize: '22px', fontWeight: '500', color: c || 'var(--text)' }),
-  card: { background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '24px', marginBottom: '16px' },
+  mVal: (c) => ({ fontSize: '20px', fontWeight: '500', color: c || 'var(--text)' }),
+  card: { background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: 'clamp(16px, 3vw, 24px)', marginBottom: '16px' },
   cardTitle: { fontSize: '16px', fontWeight: '600', marginBottom: '4px' },
   cardSub: { fontSize: '13px', color: 'var(--muted)', marginBottom: '20px' },
-  g2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' },
-  g3: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px', marginBottom: '12px' },
-  g4: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '12px', marginBottom: '12px' },
+  g2: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '12px' },
+  g3: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '12px' },
+  g4: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '12px', marginBottom: '12px' },
   field: { display: 'flex', flexDirection: 'column', gap: '6px' },
   label: { fontSize: '12px', color: 'var(--muted)' },
-  input: { padding: '10px 12px', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '14px', color: 'var(--text)', outline: 'none', width: '100%', fontFamily: 'var(--font)' },
-  btn: { padding: '12px 20px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', width: '100%', fontFamily: 'var(--font)' },
-  btnSm: { padding: '5px 10px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', fontSize: '12px', cursor: 'pointer', color: 'var(--muted)', fontFamily: 'var(--font)' },
-  btnDanger: { padding: '5px 10px', background: 'transparent', border: '1px solid #fca5a5', borderRadius: '6px', fontSize: '12px', cursor: 'pointer', color: '#dc2626', fontFamily: 'var(--font)' },
-  btnEdit: { padding: '5px 10px', background: 'transparent', border: '1px solid #93c5fd', borderRadius: '6px', fontSize: '12px', cursor: 'pointer', color: '#2563eb', fontFamily: 'var(--font)' },
+  input: { padding: '11px 12px', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '15px', color: 'var(--text)', outline: 'none', width: '100%', fontFamily: 'var(--font)' },
+  btn: { padding: '13px 20px', background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: 'pointer', width: '100%', fontFamily: 'var(--font)' },
+  btnSm: { padding: '6px 12px', background: 'transparent', border: '1px solid var(--border)', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: 'var(--muted)', fontFamily: 'var(--font)' },
+  btnDanger: { padding: '6px 12px', background: 'transparent', border: '1px solid #fca5a5', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: '#dc2626', fontFamily: 'var(--font)' },
+  btnEdit: { padding: '6px 12px', background: 'transparent', border: '1px solid #93c5fd', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: '#2563eb', fontFamily: 'var(--font)' },
   btnGreen: { padding: '9px 18px', background: '#3B6D11', color: 'white', border: 'none', borderRadius: '9px', fontSize: '13px', cursor: 'pointer', fontFamily: 'var(--font)' },
   divider: { height: '1px', background: 'var(--border)', margin: '16px 0' },
-  chip: { background: 'var(--surface2)', borderRadius: '8px', padding: '8px 10px', textAlign: 'center' },
+  chip: { background: 'var(--surface2)', borderRadius: '8px', padding: '8px 6px', textAlign: 'center' },
   chipLabel: { fontSize: '10px', color: 'var(--muted)', marginBottom: '3px' },
-  chipVal: { fontSize: '13px', fontWeight: '500' },
+  chipVal: { fontSize: '12px', fontWeight: '500' },
+  chips: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))', gap: '6px', margin: '10px 0' },
   entry: { padding: '14px 0', borderBottom: '1px solid var(--border)' },
   preview: { background: 'var(--surface2)', borderRadius: '10px', padding: '12px 16px', marginBottom: '12px', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', fontSize: '13px', color: 'var(--muted)' },
-  tab: (a) => ({ padding: '9px 20px', borderRadius: '10px', border: `1px solid ${a ? 'var(--accent)' : 'var(--border)'}`, background: a ? 'var(--accent)' : 'transparent', color: a ? 'white' : 'var(--muted)', fontSize: '14px', cursor: 'pointer', fontFamily: 'var(--font)', fontWeight: a ? '500' : '400' }),
+  tabs: { display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' },
+  tab: (a) => ({ padding: '9px 18px', borderRadius: '10px', border: `1px solid ${a ? 'var(--accent)' : 'var(--border)'}`, background: a ? 'var(--accent)' : 'transparent', color: a ? 'white' : 'var(--muted)', fontSize: '14px', cursor: 'pointer', fontFamily: 'var(--font)', fontWeight: a ? '500' : '400' }),
   calDay: (isToday, isSel) => ({ textAlign: 'center', padding: '6px 2px', borderRadius: '8px', cursor: 'pointer', fontSize: '13px', minHeight: '44px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '2px', background: isSel ? 'var(--accent)' : 'transparent', color: isSel ? 'white' : isToday ? 'var(--accent)' : 'var(--text)', border: isToday && !isSel ? '1px solid var(--accent)' : '1px solid transparent' }),
-  adRow: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--border)', fontSize: '14px', gap: '8px' },
+  adRow: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid var(--border)', fontSize: '14px', gap: '8px', flexWrap: 'wrap' },
 }
 
 export default function ProfitDashboard() {
@@ -271,8 +274,8 @@ export default function ProfitDashboard() {
       <div style={css.metrics}>
         <div style={css.metric}><div style={css.mLabel}>Total revenue</div><div style={css.mVal('var(--accent)')}>${totalRev.toFixed(2)}</div></div>
         <div style={css.metric}><div style={css.mLabel}>Total costs</div><div style={css.mVal('#dc2626')}>${totalCost.toFixed(2)}</div></div>
-        <div style={css.metric}><div style={css.mLabel}>Net profit</div><div style={css.mVal(totalProfit >= 0 ? '#3B6D11' : '#dc2626')}>${totalProfit.toFixed(2)}</div></div>
-        <div style={css.metric}><div style={css.mLabel}>Avg margin</div><div style={css.mVal(totalMargin >= 30 ? '#3B6D11' : totalMargin >= 10 ? '#854F0B' : '#dc2626')}>{totalMargin}%</div></div>
+        <div style={css.metric}><div style={css.mVal(totalProfit >= 0 ? '#3B6D11' : '#dc2626')}>${totalProfit.toFixed(2)}</div><div style={css.mLabel}>Net profit</div></div>
+        <div style={css.metric}><div style={css.mVal(totalMargin >= 30 ? '#3B6D11' : totalMargin >= 10 ? '#854F0B' : '#dc2626')}>{totalMargin}%</div><div style={css.mLabel}>Avg margin</div></div>
       </div>
       <div style={css.metrics}>
         <div style={css.metric}><div style={css.mLabel}>Units sold</div><div style={css.mVal()}>{totalUnits}</div></div>
@@ -281,7 +284,7 @@ export default function ProfitDashboard() {
         <div style={css.metric}><div style={css.mLabel}>Shipping</div><div style={css.mVal('#854F0B')}>${totalShip.toFixed(2)}</div></div>
       </div>
 
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+      <div style={css.tabs}>
         <button style={css.tab(tab === 'today')} onClick={() => setTab('today')}>📊 Dashboard</button>
         <button style={css.tab(tab === 'history')} onClick={() => setTab('history')}>📅 History</button>
       </div>
