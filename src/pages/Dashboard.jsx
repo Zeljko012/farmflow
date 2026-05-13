@@ -139,8 +139,8 @@ export default function Dashboard() {
         >✕</button>
       </div>
 
-      <nav style={{ flex: 1, padding: '20px 16px', overflowY: 'auto' }}>
-        <div style={{ fontSize: '10px', fontFamily: 'var(--mono)', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--muted2)', padding: '0 8px', marginBottom: '12px' }}>Menu</div>
+      <nav style={{ flex: 1, padding: '12px 16px', overflowY: 'auto', minHeight: 0 }}>
+        <div style={{ fontSize: '10px', fontFamily: 'var(--mono)', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--muted2)', padding: '0 8px', marginBottom: '8px' }}>Menu</div>
         {TOOLS.map(tool => {
           const locked = tool.feature && !hasFeature(tool.feature)
           const isActive = activeTab === tool.id
@@ -149,48 +149,50 @@ export default function Dashboard() {
               key={tool.id}
               onClick={() => locked ? navigate('/pricing') : handleTabChange(tool.id)}
               style={{
-                width: '100%', display: 'flex', alignItems: 'center', gap: '14px',
-                padding: '14px 16px', borderRadius: '12px', border: 'none',
+                width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '11px 14px', borderRadius: '10px', border: 'none',
                 background: isActive ? 'var(--accent-light)' : 'transparent',
                 color: isActive ? 'var(--accent)' : locked ? 'var(--muted2)' : 'var(--text)',
-                cursor: 'pointer', marginBottom: '4px', textAlign: 'left',
+                cursor: 'pointer', marginBottom: '2px', textAlign: 'left',
                 transition: 'background 0.15s', fontFamily: 'var(--font)',
-                fontSize: '15px', fontWeight: isActive ? '500' : '400',
+                fontSize: '14px', fontWeight: isActive ? '500' : '400',
               }}
             >
-              <span style={{ width: '22px', height: '22px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: locked ? 0.4 : 1 }}>{tool.icon}</span>
+              <span style={{ width: '20px', height: '20px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: locked ? 0.4 : 1 }}>{tool.icon}</span>
               <span style={{ flex: 1 }}>{tool.label}</span>
               {locked && (
-                <span style={{ fontSize: '10px', fontFamily: 'var(--mono)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '4px', padding: '2px 7px', color: 'var(--muted)', flexShrink: 0 }}>{tool.plan}</span>
+                <span style={{ fontSize: '10px', fontFamily: 'var(--mono)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '4px', padding: '2px 6px', color: 'var(--muted)', flexShrink: 0 }}>{tool.plan}</span>
               )}
             </button>
           )
         })}
       </nav>
 
-      <div style={{ padding: '16px', borderTop: '1px solid var(--border)' }}>
+      <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', flexShrink: 0 }}>
         {plan !== 'expert' && (
           <div
             onClick={() => { window.open('https://farmflow-mu.vercel.app/pricing', '_blank'); setSidebarOpen(false) }}
-            style={{ background: 'linear-gradient(135deg, #d4501f 0%, #e8733d 100%)', borderRadius: '12px', padding: '16px', cursor: 'pointer', marginBottom: '12px', color: 'white' }}
+            style={{ background: 'linear-gradient(135deg, #d4501f 0%, #e8733d 100%)', borderRadius: '10px', padding: '10px 14px', cursor: 'pointer', marginBottom: '10px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
           >
-            <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '3px' }}>🚀 Upgrade plan</div>
-            <div style={{ fontSize: '12px', opacity: 0.85, marginBottom: '10px' }}>Unlock all features</div>
-            <div style={{ fontSize: '12px', fontWeight: '500', background: 'rgba(255,255,255,0.2)', borderRadius: '6px', padding: '5px 10px', display: 'inline-block' }}>View plans →</div>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '600' }}>🚀 Upgrade plan</div>
+              <div style={{ fontSize: '11px', opacity: 0.85 }}>Unlock all features</div>
+            </div>
+            <div style={{ fontSize: '12px', fontWeight: '500', background: 'rgba(255,255,255,0.2)', borderRadius: '6px', padding: '4px 8px', whiteSpace: 'nowrap' }}>View →</div>
           </div>
         )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', background: 'var(--surface2)', borderRadius: '10px' }}>
-          <div style={{ width: '38px', height: '38px', background: 'var(--accent)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', fontWeight: '600', flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', background: 'var(--surface2)', borderRadius: '10px' }}>
+          <div style={{ width: '34px', height: '34px', background: 'var(--accent)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '600', flexShrink: 0 }}>
             {(profile?.full_name || user?.email || 'U')[0].toUpperCase()}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: '14px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name || user?.email?.split('@')[0] || 'User'}</div>
-            <div style={{ fontSize: '11px', color: planInfo.color, fontFamily: 'var(--mono)', fontWeight: '500', marginBottom: '4px' }}>{planInfo.label} plan</div>
+            <div style={{ fontSize: '13px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name || user?.email?.split('@')[0] || 'User'}</div>
+            <div style={{ fontSize: '11px', color: planInfo.color, fontFamily: 'var(--mono)', fontWeight: '500' }}>{planInfo.label} plan</div>
             <button
               onClick={handleSignOut}
-              style={{ background: 'transparent', border: 'none', padding: '0', cursor: 'pointer', color: 'var(--muted)', fontSize: '11px', fontFamily: 'var(--font)', display: 'flex', alignItems: 'center', gap: '4px' }}
+              style={{ background: 'transparent', border: 'none', padding: '2px 0 0', cursor: 'pointer', color: 'var(--muted)', fontSize: '11px', fontFamily: 'var(--font)', display: 'flex', alignItems: 'center', gap: '4px' }}
             >
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               Sign out
             </button>
           </div>
