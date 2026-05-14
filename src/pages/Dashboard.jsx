@@ -123,23 +123,20 @@ export default function Dashboard() {
 
   const SidebarContent = () => (
     <>
-      <div style={{ padding: '24px 24px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+      {/* LOGO */}
+      <div className="ff-sidebar-logo" style={{ padding: '24px 24px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <div style={{ width: '40px', height: '40px', background: 'var(--accent)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>⚡</div>
           <div>
             <div style={{ fontSize: '19px', fontWeight: '600', color: 'var(--text)', letterSpacing: '-0.3px' }}>Farm<span style={{ color: 'var(--accent)' }}>Flow</span></div>
             <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '1px', fontFamily: 'var(--mono)' }}>3D Print Automation</div>
           </div>
         </div>
-        {/* Close button — mobile only */}
-        <button
-          onClick={() => setSidebarOpen(false)}
-          style={{ display: 'none', width: '32px', height: '32px', background: 'none', border: '1px solid var(--border)', borderRadius: '8px', cursor: 'pointer', fontSize: '18px', color: 'var(--muted)', alignItems: 'center', justifyContent: 'center' }}
-          className="mobile-close-btn"
-        >✕</button>
+        <button onClick={() => setSidebarOpen(false)} className="mobile-close-btn" style={{ display: 'none', width: '32px', height: '32px', background: 'none', border: '1px solid var(--border)', borderRadius: '8px', cursor: 'pointer', fontSize: '18px', color: 'var(--muted)', alignItems: 'center', justifyContent: 'center' }}>✕</button>
       </div>
 
-      <nav style={{ flex: 1, padding: '12px 16px', overflowY: 'auto', minHeight: 0 }}>
+      {/* NAV */}
+      <nav style={{ flex: 1, padding: '12px 16px', overflowY: 'hidden' }}>
         <div style={{ fontSize: '10px', fontFamily: 'var(--mono)', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--muted2)', padding: '0 8px', marginBottom: '8px' }}>Menu</div>
         {TOOLS.map(tool => {
           const locked = tool.feature && !hasFeature(tool.feature)
@@ -147,6 +144,7 @@ export default function Dashboard() {
           return (
             <button
               key={tool.id}
+              className="ff-nav-item"
               onClick={() => locked ? navigate('/pricing') : handleTabChange(tool.id)}
               style={{
                 width: '100%', display: 'flex', alignItems: 'center', gap: '12px',
@@ -160,38 +158,35 @@ export default function Dashboard() {
             >
               <span style={{ width: '20px', height: '20px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: locked ? 0.4 : 1 }}>{tool.icon}</span>
               <span style={{ flex: 1 }}>{tool.label}</span>
-              {locked && (
-                <span style={{ fontSize: '10px', fontFamily: 'var(--mono)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '4px', padding: '2px 6px', color: 'var(--muted)', flexShrink: 0 }}>{tool.plan}</span>
-              )}
+              {locked && <span className="ff-nav-badge" style={{ fontSize: '10px', fontFamily: 'var(--mono)', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '4px', padding: '2px 6px', color: 'var(--muted)', flexShrink: 0 }}>{tool.plan}</span>}
             </button>
           )
         })}
       </nav>
 
+      {/* BOTTOM */}
       <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', flexShrink: 0 }}>
         {plan !== 'expert' && (
           <div
+            className="ff-upgrade-card"
             onClick={() => { window.open('https://farmflow-mu.vercel.app/pricing', '_blank'); setSidebarOpen(false) }}
             style={{ background: 'linear-gradient(135deg, #d4501f 0%, #e8733d 100%)', borderRadius: '10px', padding: '10px 14px', cursor: 'pointer', marginBottom: '10px', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
           >
             <div>
               <div style={{ fontSize: '13px', fontWeight: '600' }}>🚀 Upgrade plan</div>
-              <div style={{ fontSize: '11px', opacity: 0.85 }}>Unlock all features</div>
+              <div className="ff-upgrade-text" style={{ fontSize: '11px', opacity: 0.85 }}>Unlock all features</div>
             </div>
-            <div style={{ fontSize: '12px', fontWeight: '500', background: 'rgba(255,255,255,0.2)', borderRadius: '6px', padding: '4px 8px', whiteSpace: 'nowrap' }}>View →</div>
+            <div style={{ fontSize: '11px', fontWeight: '500', background: 'rgba(255,255,255,0.2)', borderRadius: '6px', padding: '3px 8px', whiteSpace: 'nowrap' }}>View →</div>
           </div>
         )}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', background: 'var(--surface2)', borderRadius: '10px' }}>
+        <div className="ff-user-row" style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', background: 'var(--surface2)', borderRadius: '10px' }}>
           <div style={{ width: '34px', height: '34px', background: 'var(--accent)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px', fontWeight: '600', flexShrink: 0 }}>
             {(profile?.full_name || user?.email || 'U')[0].toUpperCase()}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: '13px', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{profile?.full_name || user?.email?.split('@')[0] || 'User'}</div>
             <div style={{ fontSize: '11px', color: planInfo.color, fontFamily: 'var(--mono)', fontWeight: '500' }}>{planInfo.label} plan</div>
-            <button
-              onClick={handleSignOut}
-              style={{ background: 'transparent', border: 'none', padding: '2px 0 0', cursor: 'pointer', color: 'var(--muted)', fontSize: '11px', fontFamily: 'var(--font)', display: 'flex', alignItems: 'center', gap: '4px' }}
-            >
+            <button onClick={handleSignOut} style={{ background: 'transparent', border: 'none', padding: '2px 0 0', cursor: 'pointer', color: 'var(--muted)', fontSize: '11px', fontFamily: 'var(--font)', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
               Sign out
             </button>
@@ -209,6 +204,12 @@ export default function Dashboard() {
           .ff-mobile-topbar { display: flex !important; }
           .ff-main { padding-top: 56px; }
           .mobile-close-btn { display: flex !important; }
+          .ff-sidebar-logo { padding: 12px 18px 10px !important; }
+          .ff-nav-item { padding: 7px 12px !important; margin-bottom: 1px !important; font-size: 13px !important; }
+          .ff-nav-badge { display: none !important; }
+          .ff-upgrade-card { padding: 7px 12px !important; margin-bottom: 7px !important; }
+          .ff-upgrade-text { display: none !important; }
+          .ff-user-row { padding: 8px 10px !important; }
         }
         @media (min-width: 769px) {
           .ff-mobile-topbar { display: none !important; }
