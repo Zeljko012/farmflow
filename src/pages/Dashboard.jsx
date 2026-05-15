@@ -122,7 +122,7 @@ export default function Dashboard() {
   }
 
   const SidebarContent = () => (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
       {/* LOGO */}
       <div className="ff-sidebar-logo" style={{ padding: '24px 24px 20px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -136,7 +136,7 @@ export default function Dashboard() {
       </div>
 
       {/* NAV */}
-      <nav style={{ flex: 1, padding: '12px 16px', overflowY: 'hidden' }}>
+      <nav style={{ flex: 1, padding: '12px 16px', overflowY: 'hidden', minHeight: 0, display: 'flex', flexDirection: 'column' }}>
         <div style={{ fontSize: '10px', fontFamily: 'var(--mono)', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--muted2)', padding: '0 8px', marginBottom: '8px' }}>Menu</div>
         {TOOLS.map(tool => {
           const locked = tool.feature && !hasFeature(tool.feature)
@@ -165,7 +165,7 @@ export default function Dashboard() {
       </nav>
 
       {/* BOTTOM */}
-      <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', flexShrink: 0 }}>
+      <div style={{ padding: '12px 16px', borderTop: '1px solid var(--border)', flexShrink: 0, marginTop: 'auto' }}>
         {plan !== 'expert' && (
           <div
             className="ff-upgrade-card"
@@ -193,7 +193,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 
   return (
@@ -237,7 +237,8 @@ export default function Dashboard() {
         <aside
           className="ff-mobile-overlay"
           style={{
-            position: 'fixed', top: 0, left: 0, width: '280px', height: '100vh',
+            position: 'fixed', top: 0, left: 0, width: '280px',
+            height: '100dvh',
             background: 'var(--white)', zIndex: 100, display: 'flex', flexDirection: 'column',
             overflow: 'hidden', transform: sidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
             transition: 'transform 0.25s ease', boxShadow: '4px 0 20px rgba(0,0,0,0.1)',
