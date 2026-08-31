@@ -77,6 +77,13 @@ const TOOLS = [
     feature: 'support',
     plan: 'Expert',
   },
+  {
+    id: 'contact',
+    icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
+    label: 'Contact',
+    feature: null,
+    plan: null,
+  },
 ]
 
 export default function Dashboard() {
@@ -277,6 +284,7 @@ export default function Dashboard() {
           {activeTab === 'orders'    && hasFeature('orders') && <OrderManagement />}
           {activeTab === 'videos'    && hasFeature('videos') && <VideosPage />}
           {activeTab === 'support'   && hasFeature('support') && <SupportPage />}
+          {activeTab === 'contact'   && <ContactPage user={user} profile={profile} />}
         </main>
       </div>
     </>
@@ -491,6 +499,91 @@ function SupportPage() {
             I personally read and answer every message. No templates, no automated responses. If you send me a photo of a failed print at 10pm, I'll look at it.
           </div>
         </div>
+      </div>
+    </div>
+  )
+}
+
+function ContactPage({ user, profile }) {
+  const [subject, setSubject] = useState('')
+  const [message, setMessage] = useState('')
+  const [sent, setSent] = useState(false)
+
+  const userName = profile?.full_name || user?.email?.split('@')[0] || ''
+  const userEmail = user?.email || ''
+
+  function handleSend() {
+    if (!message.trim()) return
+    const body = encodeURIComponent(`Hi,\n\n${message}\n\n---\nSent from FarmFlow\nUser: ${userName}\nEmail: ${userEmail}\nPlan: ${profile?.plan || 'free'}`)
+    const sub = encodeURIComponent(subject || 'FarmFlow — message from ' + (userName || userEmail))
+    window.location.href = `mailto:proviczeljko@gmail.com?subject=${sub}&body=${body}`
+    setSent(true)
+  }
+
+  const inp = { padding: '11px 14px', background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '10px', fontSize: '14px', color: 'var(--text)', outline: 'none', width: '100%', fontFamily: 'var(--font)', boxSizing: 'border-box' }
+
+  return (
+    <div style={{ padding: 'clamp(24px, 5vw, 52px)', maxWidth: '640px', margin: '0 auto' }}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '10px' }}>Free for everyone</div>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 5vw, 40px)', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' }}>Contact</h2>
+      <p style={{ color: 'var(--muted)', marginBottom: '36px', fontSize: '15px', lineHeight: 1.7, fontWeight: '300' }}>
+        Have a question, spotted a bug, or want to suggest something? Write to me directly — I read every message.
+      </p>
+
+      {sent ? (
+        <div style={{ background: '#EAF3DE', border: '1px solid #3B6D11', borderRadius: '16px', padding: '36px', textAlign: 'center' }}>
+          <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
+          <div style={{ fontSize: '18px', fontWeight: '600', color: '#3B6D11', marginBottom: '8px' }}>Message opened in your email app</div>
+          <div style={{ fontSize: '14px', color: '#3B6D11', opacity: 0.8, lineHeight: 1.6 }}>Hit send in your email app to complete. I'll get back to you within 24 hours.</div>
+          <button onClick={() => { setSent(false); setSubject(''); setMessage('') }} style={{ marginTop: '20px', padding: '10px 22px', background: 'transparent', border: '1px solid #3B6D11', borderRadius: '100px', color: '#3B6D11', fontSize: '13px', cursor: 'pointer', fontFamily: 'var(--font)' }}>
+            Send another message
+          </button>
+        </div>
+      ) : (
+        <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: 'clamp(20px, 4vw, 36px)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', marginBottom: '12px' }}>
+            <div>
+              <div style={{ fontSize: '12px', color: 'var(--muted)', marginBottom: '6px' }}>Your name</div>
+              <div style={{ ...inp, background: 'var(--bg)', color: 'var(--muted)', cursor: 'default' }}>{userName || '—'}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '12px', color: 'var(--muted)', marginBottom: '6px' }}>Your email</div>
+              <div style={{ ...inp, background: 'var(--bg)', color: 'var(--muted)', cursor: 'default' }}>{userEmail}</div>
+            </div>
+          </div>
+          <div style={{ marginBottom: '12px' }}>
+            <div style={{ fontSize: '12px', color: 'var(--muted)', marginBottom: '6px' }}>Subject <span style={{ opacity: 0.5 }}>(optional)</span></div>
+            <input style={inp} value={subject} onChange={e => setSubject(e.target.value)} placeholder="e.g. Bug report, Feature request, Question..." />
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            <div style={{ fontSize: '12px', color: 'var(--muted)', marginBottom: '6px' }}>Message *</div>
+            <textarea style={{ ...inp, minHeight: '140px', resize: 'vertical', lineHeight: 1.65 }} value={message} onChange={e => setMessage(e.target.value)} placeholder="Write your message here..." />
+          </div>
+          <button
+            onClick={handleSend}
+            disabled={!message.trim()}
+            style={{ width: '100%', padding: '14px', background: message.trim() ? 'var(--accent)' : 'var(--surface2)', color: message.trim() ? 'white' : 'var(--muted)', border: 'none', borderRadius: '10px', fontSize: '15px', fontWeight: '600', cursor: message.trim() ? 'pointer' : 'default', fontFamily: 'var(--font)', transition: 'all 0.2s' }}
+          >
+            Send message →
+          </button>
+          <div style={{ marginTop: '14px', fontSize: '12px', color: 'var(--muted)', textAlign: 'center', lineHeight: 1.6 }}>
+            This will open your email app with the message pre-filled. Hit send from there.
+          </div>
+        </div>
+      )}
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '12px', marginTop: '20px' }}>
+        {[
+          { emoji: '⚡', title: 'Response time', desc: 'Within 24 hours' },
+          { emoji: '🐛', title: 'Bug reports', desc: 'Fixes prioritized immediately' },
+          { emoji: '💡', title: 'Feature requests', desc: 'All ideas considered' },
+        ].map(item => (
+          <div key={item.title} style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
+            <div style={{ fontSize: '22px', marginBottom: '6px' }}>{item.emoji}</div>
+            <div style={{ fontSize: '13px', fontWeight: '600', marginBottom: '3px' }}>{item.title}</div>
+            <div style={{ fontSize: '12px', color: 'var(--muted)' }}>{item.desc}</div>
+          </div>
+        ))}
       </div>
     </div>
   )
