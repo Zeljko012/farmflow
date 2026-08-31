@@ -73,7 +73,7 @@ const TOOLS = [
   {
     id: 'support',
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
-    label: 'Live Support',
+    label: 'Live Chat Support',
     feature: 'support',
     plan: 'Expert',
   },
@@ -356,10 +356,10 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
     {
       id: 'support',
       emoji: '💬',
-      title: 'Live Support',
-      desc: 'Direct 1-on-1 support from the FarmFlow founder. Get personalized help with any 3D printing or business challenge.',
+      title: 'Live Chat Support',
+      desc: 'Chat directly with the FarmFlow founder — a 3D print seller himself. Print failing? Not sure what to charge? Want more orders? Real answers, no bots, within 24 hours.',
       available: hasFeature('support'),
-      cta: hasFeature('support') ? 'Get Support' : 'Upgrade to Expert',
+      cta: hasFeature('support') ? 'Start a conversation' : 'Upgrade to Expert',
       color: '#7c3aed',
       bg: '#f5f3ff',
       plan: 'Expert',
@@ -434,22 +434,62 @@ function VideosPage() {
 
 function SupportPage() {
   return (
-    <div style={{ padding: 'clamp(24px, 5vw, 52px)', maxWidth: '900px', margin: '0 auto' }}>
-      <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', color: 'var(--accent)', textTransform: 'uppercase', marginBottom: '10px' }}>Expert Feature</div>
-      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 5vw, 44px)', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '12px' }}>Live Support</h2>
-      <p style={{ color: 'var(--muted)', marginBottom: '48px', fontSize: '15px', lineHeight: 1.6, maxWidth: '500px' }}>Direct access to the FarmFlow founder. Get personalized help with any challenge.</p>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
-        <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '32px' }}>
-          <div style={{ fontSize: '40px', marginBottom: '16px' }}>📧</div>
-          <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>Email Support</div>
-          <div style={{ fontSize: '14px', color: 'var(--muted)', marginBottom: '24px', lineHeight: 1.65 }}>Send your question and get a detailed response within 24 hours.</div>
-          <a href="mailto:proviczeljko@gmail.com" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'var(--accent)', color: 'white', borderRadius: '10px', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>Send email →</a>
+    <div style={{ padding: 'clamp(24px, 5vw, 52px)', maxWidth: '860px', margin: '0 auto' }}>
+      <div style={{ fontFamily: 'var(--mono)', fontSize: '11px', letterSpacing: '2px', color: '#7c3aed', textTransform: 'uppercase', marginBottom: '10px' }}>Expert Feature</div>
+      <h2 style={{ fontFamily: 'var(--serif)', fontSize: 'clamp(28px, 5vw, 44px)', fontStyle: 'italic', letterSpacing: '-1px', marginBottom: '16px' }}>Live Support</h2>
+      <p style={{ color: 'var(--muted)', marginBottom: '40px', fontSize: '16px', lineHeight: 1.7, maxWidth: '560px', fontWeight: '300' }}>
+        Direct access to me — the founder of FarmFlow and a 3D print seller myself. Whether you're stuck on a print, not sure what to charge, or want to scale your farm, I'm here.
+      </p>
+
+      {/* MAIN CHAT CARD */}
+      <div style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #9f67fa 100%)', borderRadius: '24px', padding: 'clamp(28px, 5vw, 48px)', marginBottom: '20px', color: 'white', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
+        <div style={{ position: 'absolute', bottom: '-60px', right: '60px', width: '140px', height: '140px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)' }} />
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ fontSize: '48px', marginBottom: '20px' }}>💬</div>
+          <div style={{ fontSize: 'clamp(20px, 4vw, 28px)', fontWeight: '600', marginBottom: '12px', letterSpacing: '-0.5px' }}>
+            Chat directly with me
+          </div>
+          <p style={{ fontSize: '15px', opacity: 0.85, lineHeight: 1.7, marginBottom: '32px', maxWidth: '480px', fontWeight: '300' }}>
+            Got a print that keeps failing? Not sure what settings to use? Want to talk through pricing or how to get more orders? Send me a message and we figure it out together — no bots, no support tickets, just a real conversation.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <a
+              href="mailto:proviczeljko@gmail.com?subject=FarmFlow Support"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 28px', background: 'white', color: '#7c3aed', borderRadius: '100px', fontSize: '15px', fontWeight: '600', textDecoration: 'none', transition: 'opacity 0.2s' }}
+            >
+              💬 Start a conversation →
+            </a>
+          </div>
         </div>
-        <div style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '20px', padding: '32px' }}>
-          <div style={{ fontSize: '40px', marginBottom: '16px' }}>📅</div>
-          <div style={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>Book a Session</div>
-          <div style={{ fontSize: '14px', color: 'var(--muted)', marginBottom: '24px', lineHeight: 1.65 }}>Schedule a 1-on-1 video call to solve your problem in real time.</div>
-          <a href="mailto:proviczeljko@gmail.com?subject=Book Support Session" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 24px', background: 'var(--text)', color: 'white', borderRadius: '10px', fontSize: '14px', fontWeight: '600', textDecoration: 'none' }}>Book session →</a>
+      </div>
+
+      {/* WHAT YOU CAN ASK */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px', marginBottom: '20px' }}>
+        {[
+          { emoji: '🖨️', title: 'Print problems', desc: 'Stringing, layer shifts, warping, adhesion issues — send me photos and settings and we solve it together.' },
+          { emoji: '💰', title: 'Pricing & profit', desc: 'Not sure what to charge? Tell me what you\'re making and I\'ll help you find the right price for your market.' },
+          { emoji: '📦', title: 'Shipping & operations', desc: 'Questions about packaging, COD, delivery services, or how to manage higher order volumes.' },
+          { emoji: '📈', title: 'Growing your farm', desc: 'Where to sell, how to get more orders, what products work — real experience from someone doing it.' },
+          { emoji: '⚙️', title: 'Bambu Lab settings', desc: 'Slicer settings, profiles, material configs — whatever you need help dialing in.' },
+          { emoji: '🧵', title: 'Filament & materials', desc: 'Which filament for which product, storage, quality issues — practical answers from real experience.' },
+        ].map(item => (
+          <div key={item.title} style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: '16px', padding: '22px' }}>
+            <div style={{ fontSize: '28px', marginBottom: '10px' }}>{item.emoji}</div>
+            <div style={{ fontSize: '15px', fontWeight: '600', marginBottom: '6px', color: 'var(--text)' }}>{item.title}</div>
+            <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.65 }}>{item.desc}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* RESPONSE TIME */}
+      <div style={{ background: 'var(--surface2)', border: '1px solid var(--border)', borderRadius: '14px', padding: '20px 24px', display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+        <div style={{ fontSize: '28px' }}>⚡</div>
+        <div>
+          <div style={{ fontSize: '15px', fontWeight: '600', marginBottom: '4px' }}>Response within 24 hours</div>
+          <div style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>
+            I personally read and answer every message. No templates, no automated responses. If you send me a photo of a failed print at 10pm, I'll look at it.
+          </div>
         </div>
       </div>
     </div>
