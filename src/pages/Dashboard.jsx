@@ -73,7 +73,7 @@ const TOOLS = [
   {
     id: 'support',
     icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
-    label: 'Live Chat Support',
+    label: 'Founder Advisory',
     feature: 'support',
     plan: 'Expert',
   },
@@ -364,10 +364,10 @@ function HomePage({ plan, planInfo, features, setActiveTab, navigate, profile })
     {
       id: 'support',
       emoji: '💬',
-      title: 'Live Chat Support',
-      desc: 'Chat directly with the FarmFlow founder — a 3D print seller himself. Print failing? Not sure what to charge? Want more orders? Real answers, no bots, within 24 hours.',
+      title: 'Founder Advisory',
+      desc: 'Talk directly to the founder — a 3D print seller himself. Real answers on pricing, print quality, costs and growth. No bots, within 24 hours.',
       available: hasFeature('support'),
-      cta: hasFeature('support') ? 'Start a conversation' : 'Upgrade to Expert',
+      cta: hasFeature('support') ? 'Get founder advice' : 'Upgrade to Expert',
       color: '#7c3aed',
       bg: '#f5f3ff',
       plan: 'Expert',
