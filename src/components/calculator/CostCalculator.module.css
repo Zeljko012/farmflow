@@ -55,3 +55,44 @@
   .results { grid-template-columns: 1fr 1fr; }
   .saleResults { grid-template-columns: 1fr; }
 }
+
+/* ===== WHAT-IF PRICING ===== */
+.wiSliderWrap { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; margin-bottom: 20px; }
+.wiSliderTop { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px; }
+.wiSliderLabel { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.wiSliderPrice { font-size: 36px; font-weight: 500; letter-spacing: -1px; color: var(--text); }
+.wiSliderCost { font-size: 18px; font-weight: 500; color: var(--muted); }
+.wiSlider { width: 100%; height: 6px; appearance: none; background: var(--border); border-radius: 3px; outline: none; cursor: pointer; margin-bottom: 10px; }
+.wiSlider::-webkit-slider-thumb { appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.wiSlider::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--accent); cursor: pointer; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+.wiSliderRange { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-family: var(--mono); }
+
+.wiResults { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 20px; }
+.wiResultCard { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 16px; text-align: center; transition: border-color 0.2s; }
+.wiResultLabel { font-size: 11px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--mono); }
+.wiResultValue { font-size: 24px; font-weight: 500; letter-spacing: -0.5px; }
+
+.wiMarginBar { margin-bottom: 20px; }
+.wiMarginBarInner { position: relative; height: 10px; background: var(--surface2); border-radius: 5px; overflow: visible; margin-bottom: 4px; }
+.wiMarginFill { height: 100%; border-radius: 5px; transition: width 0.2s, background 0.2s; }
+.wiMarker { position: absolute; top: -4px; transform: translateX(-50%); }
+.wiMarkerLine { width: 2px; height: 18px; background: var(--muted); border-radius: 1px; }
+.wiMarkerLabel { font-size: 10px; color: var(--muted); font-family: var(--mono); white-space: nowrap; margin-top: 2px; transform: translateX(-30%); }
+
+.wiInsight { margin-bottom: 24px; }
+.wiInsightDanger { background: #FCEBEB; border: 1px solid #fca5a5; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #dc2626; line-height: 1.6; }
+.wiInsightWarn { background: #FAEEDA; border: 1px solid #FAC775; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #854F0B; line-height: 1.6; }
+.wiInsightOk { background: #EAF3DE; border: 1px solid #3B6D11; border-radius: 10px; padding: 12px 16px; font-size: 13px; color: #3B6D11; line-height: 1.6; }
+
+.wiTable { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.wiTableHeader { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; padding: 10px 16px; background: var(--surface2); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--mono); }
+.wiTableRow { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; padding: 12px 16px; border-top: 1px solid var(--border); font-size: 13px; }
+.wiTableRowActive { background: var(--accent-light); font-weight: 500; }
+
+@media (max-width: 600px) {
+  .wiResults { grid-template-columns: 1fr 1fr; }
+  .wiResultValue { font-size: 20px; }
+  .wiSliderPrice { font-size: 28px; }
+  .wiTableHeader, .wiTableRow { grid-template-columns: 1.5fr 1fr 1fr; }
+  .wiTableHeader span:nth-child(4), .wiTableRow span:nth-child(4) { display: none; }
+}
