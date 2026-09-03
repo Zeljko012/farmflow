@@ -9,9 +9,9 @@ const FEATURES = [
     planColor: '#d4501f',
     title: 'G-Code Auto-Eject Generator',
     headline: 'Your printer runs itself. You do something else.',
-    desc: `Most Bambu Lab sellers spend more time standing next to their printer than they think. You hit print, wait, take the part off, hit print again. Repeat. All day.
+    desc: `Most 3D print sellers spend more time standing next to their printer than they think. You hit print, wait, take the part off, hit print again. Repeat. All day.
 
-FarmFlow generates a custom G-code snippet you paste once into Bambu Studio. From that moment, every single print — no matter what you're printing — ejects automatically when it's done cooling. The plate resets. The printer is ready for the next job.
+FarmFlow generates a custom G-code snippet you paste once into your slicer. From that moment, every single print — no matter what you're printing — ejects automatically when it's done cooling. The plate resets. The printer is ready for the next job.
 
 You paste the code once. You never touch it again.`,
     bullets: [
@@ -43,7 +43,7 @@ It also runs a profit simulator — enter how many units you want to sell and it
       'Profit margin simulator',
       '100% free — no account needed',
     ],
-    highlight: 'The only calculator built specifically for Bambu Lab sellers.',
+    highlight: 'The only calculator built specifically for 3D print sellers.',
     side: 'right',
   },
   {
@@ -141,25 +141,25 @@ No more trying to remember what you need to order. No sticky notes. No mental li
     emoji: '💬',
     plan: 'Expert',
     planColor: '#7c3aed',
-    title: 'Live Support',
-    headline: 'Stuck on something? I\'ll help you figure it out personally.',
-    desc: `Most tools give you a knowledge base and a ticket system. FarmFlow Expert gives you something different — direct access to me, the founder, a 3D print seller myself.
+    title: 'Founder Advisory',
+    headline: 'Talk directly to someone who runs a 3D print business themselves.',
+    desc: `Most tools give you a knowledge base and a ticket system. FarmFlow Expert gives you something completely different — direct access to the founder, a 3D print seller himself.
 
-Send me a message about anything. A print that keeps failing. A customer complaining about quality. Not knowing what to charge. Wanting to get more orders but not sure where to start. I read every message personally and I answer with real advice based on real experience — not generic tips from a forum.
+Send a message about anything. A print that keeps failing. Not knowing what to charge. Wanting to get more orders but not sure where to start. You get real advice from real experience — not generic tips copied from a forum.
 
-No bots. No support tickets. No waiting in a queue. Just a conversation with someone who has run the same kind of operation you're running and knows what actually works.
+No bots. No support tickets. No waiting in a queue. Just a conversation with someone who has run the same kind of operation and knows what actually works in practice.
 
-Expert plan is limited to 20 members to keep the quality of support high. When a spot opens, it's first come first served.`,
+Expert plan is limited to 20 members to keep the quality of advice high. This is not a helpdesk. It is direct access to someone invested in making your business work.`,
     bullets: [
       'Direct chat with the FarmFlow founder',
-      'Help with print quality, settings, materials',
-      'Pricing advice for your specific products',
-      'How to get more orders and grow your farm',
-      'Shipping, operations, and business questions',
+      'Print quality, settings and material advice',
+      'Pricing strategy for your specific products',
+      'How to get more orders and grow your operation',
+      'Shipping, operations and cost optimization',
       'Response within 24 hours, every time',
-      'Limited to 20 members — real access, not a chatbot',
+      'Limited to 20 members — personal access, not a chatbot',
     ],
-    highlight: 'The only 3D print support where you talk to someone who does it themselves.',
+    highlight: 'The only 3D print tool where you talk to someone who does it themselves.',
     side: 'left',
   },
 ]
@@ -183,13 +183,13 @@ export default function Landing() {
 
       {/* HERO */}
       <section className={styles.hero}>
-        <div className={styles.heroEye}>3D Print Farm Automation</div>
+        <div className={styles.heroEye}>Run the business behind your 3D printers</div>
         <h1 className={styles.heroTitle}>
-          Everything you need<br />
-          to run a <em>print farm business.</em>
+          Know exactly what you make<br />
+          <em>on every print and every sale.</em>
         </h1>
         <p className={styles.heroSub}>
-          FarmFlow is the only tool built specifically for Bambu Lab sellers — auto-eject, cost tracking, profit dashboard, inventory management, and shipping. All in one place. Starting at $9.99/month.
+          Track your true costs, price with confidence, manage inventory and orders, and see your real profit — from one place. Works with any 3D printer. Deep automation for Bambu included.
         </p>
         <div className={styles.heroActions}>
           <Link to="/register" className={styles.btnPrimary}>Start for free →</Link>
@@ -218,6 +218,97 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* DASHBOARD PREVIEW */}
+      <section className={styles.preview}>
+        <div className={styles.previewInner}>
+          <div className={styles.previewEye}>What FarmFlow looks like</div>
+          <h2 className={styles.previewTitle}>Here's what your farm actually made today.</h2>
+          <p className={styles.previewSub}>Real numbers, real profit. Not just printer status — business performance.</p>
+
+          <div className={styles.previewDash}>
+            {/* TOP METRICS */}
+            <div className={styles.dashHeader}>
+              <div className={styles.dashLogo}>⚡ FarmFlow</div>
+              <div className={styles.dashDate}>Today — {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
+            </div>
+
+            <div className={styles.dashMetrics}>
+              {[
+                { label: "Today's revenue", value: '$346.00', color: '#d4501f', up: true },
+                { label: "Today's costs", value: '$118.40', color: '#dc2626', up: false },
+                { label: "Today's profit", value: '$227.60', color: '#3B6D11', up: true },
+                { label: 'Profit margin', value: '65.8%', color: '#2563eb', up: true },
+              ].map(m => (
+                <div key={m.label} className={styles.dashMetric}>
+                  <div className={styles.dashMetricLabel}>{m.label}</div>
+                  <div className={styles.dashMetricValue} style={{ color: m.color }}>{m.value}</div>
+                  <div className={styles.dashMetricBadge} style={{ color: m.up ? '#3B6D11' : '#dc2626', background: m.up ? '#EAF3DE' : '#FCEBEB' }}>
+                    {m.up ? '↑' : '↓'} vs yesterday
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className={styles.dashGrid}>
+              {/* SALES LOG */}
+              <div className={styles.dashCard}>
+                <div className={styles.dashCardTitle}>Today's sales</div>
+                {[
+                  { name: 'Phone stand', units: 3, profit: '$42.30' },
+                  { name: 'Cable holder', units: 5, profit: '$67.50' },
+                  { name: 'Wall mount', units: 2, profit: '$38.80' },
+                  { name: 'Desk organizer', units: 4, profit: '$79.00' },
+                ].map(s => (
+                  <div key={s.name} className={styles.dashRow}>
+                    <span className={styles.dashRowName}>{s.name}</span>
+                    <span className={styles.dashRowUnits}>{s.units}x</span>
+                    <span className={styles.dashRowProfit}>{s.profit}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* INVENTORY */}
+              <div className={styles.dashCard}>
+                <div className={styles.dashCardTitle}>Filament status</div>
+                {[
+                  { name: 'PLA White — Bambu', pct: 78, color: '#f5f5f5', border: true },
+                  { name: 'PLA Black — Bambu', pct: 45, color: '#2a2a2a' },
+                  { name: 'PETG Orange', pct: 22, color: '#d85a30', low: true },
+                  { name: 'PLA Blue', pct: 91, color: '#378add' },
+                ].map(s => (
+                  <div key={s.name} className={styles.dashSpoolRow}>
+                    <span className={styles.dashSpoolDot} style={{ background: s.color, border: s.border ? '1px solid #ddd' : 'none' }} />
+                    <span className={styles.dashSpoolName}>{s.name}</span>
+                    {s.low && <span className={styles.dashSpoolLow}>Low</span>}
+                    <div className={styles.dashSpoolBarWrap}>
+                      <div className={styles.dashSpoolBar} style={{ width: s.pct + '%', background: s.pct < 30 ? '#E24B4A' : s.pct < 50 ? '#BA7517' : '#3B6D11' }} />
+                    </div>
+                    <span className={styles.dashSpoolPct}>{s.pct}%</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* SHIPMENTS */}
+              <div className={styles.dashCard}>
+                <div className={styles.dashCardTitle}>Pending shipments</div>
+                {[
+                  { name: 'Marko P.', city: 'Belgrade', status: 'Ready', color: '#854F0B', bg: '#FAEEDA' },
+                  { name: 'Ana J.', city: 'Novi Sad', status: 'Sent', color: '#3B6D11', bg: '#EAF3DE' },
+                  { name: 'Stefan M.', city: 'Niš', status: 'Ready', color: '#854F0B', bg: '#FAEEDA' },
+                  { name: 'Jovana K.', city: 'Kragujevac', status: 'Delivered', color: '#185FA5', bg: '#E6F1FB' },
+                ].map(s => (
+                  <div key={s.name} className={styles.dashRow}>
+                    <span className={styles.dashRowName}>{s.name}</span>
+                    <span className={styles.dashRowUnits} style={{ color: 'var(--muted)' }}>{s.city}</span>
+                    <span className={styles.dashRowProfit} style={{ background: s.bg, color: s.color, padding: '2px 8px', borderRadius: '6px', fontSize: '11px' }}>{s.status}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* QUICK FEATURE STRIP */}
       <section className={styles.strip}>
         {[1, 2].map(copy => (
@@ -229,7 +320,7 @@ export default function Landing() {
               { e: '📅', t: 'Sales History' },
               { e: '🧵', t: 'Inventory Tracker' },
               { e: '🛒', t: 'Order List' },
-              { e: '💬', t: 'Live Support' },
+              { e: '💬', t: 'Founder Advisory' },
             ].map(f => (
               <div key={f.t} className={styles.stripItem}>
                 <span className={styles.stripEmoji}>{f.e}</span>
@@ -324,7 +415,7 @@ export default function Landing() {
               { name: 'Free', price: '$0', desc: 'Cost Calculator', color: '#3B6D11' },
               { name: 'Starter', price: '$9.99/mo', desc: 'G-Code + Profit Dashboard', color: '#d4501f' },
               { name: 'Pro', price: '$19.99/mo', desc: 'Inventory + Shipping + Orders', color: '#2563eb' },
-              { name: 'Expert', price: '$49.99/mo', desc: 'Everything + Live Support', color: '#7c3aed' },
+              { name: 'Expert', price: '$49.99/mo', desc: 'Everything + Founder Advisory', color: '#7c3aed' },
             ].map(plan => (
               <div key={plan.name} className={styles.pricingStripPlan}>
                 <div className={styles.pricingStripName} style={{ color: plan.color }}>{plan.name}</div>
@@ -366,7 +457,7 @@ export default function Landing() {
           <Link to="/login">Sign in</Link>
           <Link to="/register">Get started</Link>
         </div>
-        <div className={styles.footerCopy}>© 2025 FarmFlow. Built for Bambu Lab sellers.</div>
+        <div className={styles.footerCopy}>© 2025 FarmFlow. Built for 3D print sellers.</div>
       </footer>
 
     </div>
