@@ -45,7 +45,65 @@
   .stat { min-width: 80px; }
 }
 
-/* ===== STRIP ===== */
+/* ===== DASHBOARD PREVIEW ===== */
+.preview { padding: 96px 24px; background: var(--bg); border-bottom: 1px solid var(--border); overflow: hidden; }
+.previewInner { max-width: 1000px; margin: 0 auto; }
+.previewEye { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; text-align: center; }
+.previewTitle { font-size: clamp(24px, 4vw, 40px); font-weight: 300; letter-spacing: -1px; color: var(--text); margin-bottom: 12px; text-align: center; }
+.previewSub { font-size: 16px; color: var(--muted); text-align: center; margin-bottom: 48px; font-weight: 300; line-height: 1.6; }
+
+.previewDash { background: var(--white); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.08); width: 100%; }
+
+.dashHeader { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; background: var(--text); }
+.dashLogo { font-size: 13px; font-weight: 600; color: white; letter-spacing: -0.3px; }
+.dashDate { font-size: 11px; color: rgba(255,255,255,0.5); font-family: var(--mono); }
+
+.dashMetrics { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border); }
+.dashMetric { padding: 16px 20px; border-right: 1px solid var(--border); min-width: 0; }
+.dashMetric:last-child { border-right: none; }
+.dashMetricLabel { font-size: 10px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dashMetricValue { font-size: clamp(16px, 2vw, 24px); font-weight: 500; letter-spacing: -0.5px; margin-bottom: 4px; }
+.dashMetricBadge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 100px; font-weight: 500; white-space: nowrap; }
+
+.dashGrid { display: grid; grid-template-columns: repeat(3, 1fr); }
+.dashCard { padding: 16px 20px; border-right: 1px solid var(--border); min-width: 0; overflow: hidden; }
+.dashCard:last-child { border-right: none; }
+.dashCardTitle { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; font-family: var(--mono); }
+
+.dashRow { display: flex; align-items: center; gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.dashRow:last-child { border-bottom: none; }
+.dashRowName { flex: 1; font-size: 12px; color: var(--text); font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.dashRowUnits { font-size: 11px; color: var(--muted); font-family: var(--mono); flex-shrink: 0; }
+.dashRowProfit { font-size: 12px; font-weight: 500; color: #3B6D11; flex-shrink: 0; }
+
+.dashSpoolRow { display: flex; align-items: center; gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.dashSpoolRow:last-child { border-bottom: none; }
+.dashSpoolDot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dashSpoolName { flex: 1; font-size: 11px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.dashSpoolLow { font-size: 9px; background: #FAEEDA; color: #854F0B; padding: 1px 5px; border-radius: 4px; flex-shrink: 0; }
+.dashSpoolBarWrap { width: 50px; height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; flex-shrink: 0; }
+.dashSpoolBar { height: 100%; border-radius: 2px; }
+.dashSpoolPct { font-size: 10px; color: var(--muted); font-family: var(--mono); min-width: 28px; text-align: right; flex-shrink: 0; }
+
+@media (max-width: 860px) {
+  .preview { padding: 52px 16px; }
+  .dashMetrics { grid-template-columns: 1fr 1fr; }
+  .dashMetric:nth-child(2) { border-right: none; }
+  .dashMetric:nth-child(3) { border-top: 1px solid var(--border); }
+  .dashMetric:nth-child(4) { border-right: none; border-top: 1px solid var(--border); }
+  .dashGrid { grid-template-columns: 1fr; }
+  .dashCard { border-right: none; border-bottom: 1px solid var(--border); }
+  .dashCard:last-child { border-bottom: none; }
+}
+
+@media (max-width: 500px) {
+  .preview { padding: 40px 12px; }
+  .dashMetricValue { font-size: 18px; }
+  .dashMetric { padding: 12px 14px; }
+  .dashCard { padding: 12px 14px; }
+}
+
+
 .strip { display: flex; align-items: center; padding: 0; background: var(--text); overflow: hidden; position: relative; }
 .stripTrack { display: flex; align-items: center; animation: stripScroll 20s linear infinite; width: max-content; }
 .stripTrack:hover { animation-play-state: paused; }
