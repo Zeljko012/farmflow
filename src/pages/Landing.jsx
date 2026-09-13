@@ -137,6 +137,33 @@ No more trying to remember what you need to order. No sticky notes. No mental li
     side: 'right',
   },
   {
+    id: 'shipping',
+    emoji: '📦',
+    plan: 'Pro',
+    planColor: '#2563eb',
+    title: 'Order Management & Shipping',
+    headline: 'From packed box to delivered — tracked, labeled, and logged.',
+    desc: `When you are filling multiple orders a week, keeping track of who gets what and what has been sent becomes a real job. Pieces of paper, notes in your phone, messages you have to scroll back to find. It adds up fast.
+
+FarmFlow Order Management gives you a clean system from package to delivery. Create a shipment with the recipient name, address, postal code and country. Add a cash-on-delivery amount if they pay on receipt, or an IBAN for electronic refunds. Add a packing checklist — every item stays red until you check it off, then the whole card turns green so you know the package is ready.
+
+When it ships, mark it sent. Add the tracking number when you have it. When it arrives — or comes back — update the status. Every shipment stays in your history permanently.
+
+And when you need to hand over details at the post office, print a clean A4 label directly from FarmFlow. Recipient name, address, contents, COD amount, IBAN. Everything the postal worker needs, formatted and ready.`,
+    bullets: [
+      'Create shipments with full recipient details',
+      'Packing checklist — red until all items checked, then green',
+      'Cash-on-delivery amount and IBAN for refunds',
+      'Link shipment to a sale from Profit Dashboard',
+      'Status tracking: Pending → Sent → Delivered / Returned',
+      'Add tracking number after sending',
+      'Print-ready A4 shipping label',
+      'Full dispatch history — permanent record',
+    ],
+    highlight: 'Never send an incomplete package again. The checklist keeps you honest.',
+    side: 'left',
+  },
+  {
     id: 'support',
     emoji: '💬',
     plan: 'Expert',
@@ -160,7 +187,7 @@ Expert plan is limited to 20 members to keep the quality of advice high. This is
       'Limited to 20 members — personal access, not a chatbot',
     ],
     highlight: 'The only 3D print tool where you talk to someone who does it themselves.',
-    side: 'left',
+    side: 'right',
   },
 ]
 
@@ -197,7 +224,7 @@ export default function Landing() {
         </div>
         <div className={styles.heroStats}>
           <div className={styles.stat}>
-            <div className={styles.statNum}>7</div>
+            <div className={styles.statNum}>8</div>
             <div className={styles.statLabel}>Tools in one app</div>
           </div>
           <div className={styles.statDivider} />
@@ -320,6 +347,7 @@ export default function Landing() {
               { e: '📅', t: 'Sales History' },
               { e: '🧵', t: 'Inventory Tracker' },
               { e: '🛒', t: 'Order List' },
+              { e: '📦', t: 'Order Management' },
               { e: '💬', t: 'Founder Advisory' },
             ].map(f => (
               <div key={f.t} className={styles.stripItem}>
