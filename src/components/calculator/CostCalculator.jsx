@@ -72,7 +72,7 @@ export default function CostCalculator() {
   }
 
   function initSlider() {
-    if (whatIfPrice === null) setWhatIfPrice(parseFloat(suggestedPrice.toFixed(2)))
+    setWhatIfPrice(parseFloat(suggestedPrice.toFixed(2)))
   }
 
   const profitColor = (p) => p > 0 ? (p / activePrice >= 0.35 ? '#3B6D11' : '#854F0B') : '#dc2626'
