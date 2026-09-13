@@ -71,7 +71,12 @@ export default function OrderManagement() {
   const [selectedSales, setSelectedSales] = useState([])
 
   // Per-shipment checklist state: { [shipmentId]: { [itemIndex]: bool } }
-  const [checklists, setChecklists] = useState({})
+  const [checklists, setChecklists] = useState(() => {
+    try {
+      const saved = localStorage.getItem('farmflow_checklists')
+      return saved ? JSON.parse(saved) : {}
+    } catch { return {} }
+  })
 
   useEffect(() => {
     if (!user) return
@@ -147,7 +152,9 @@ export default function OrderManagement() {
   function toggleCheckItem(shipId, idx) {
     setChecklists(prev => {
       const current = prev[shipId] || {}
-      return { ...prev, [shipId]: { ...current, [idx]: !current[idx] } }
+      const updated = { ...prev, [shipId]: { ...current, [idx]: !current[idx] } }
+      try { localStorage.setItem('farmflow_checklists', JSON.stringify(updated)) } catch {}
+      return updated
     })
   }
 
