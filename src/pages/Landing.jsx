@@ -292,10 +292,10 @@ export default function Landing() {
               <div className={styles.dashCard}>
                 <div className={styles.dashCardTitle}>Pending shipments</div>
                 {[
-                  { name: 'Marko P.', city: 'Belgrade', status: 'Ready', color: '#854F0B', bg: '#FAEEDA' },
-                  { name: 'Ana J.', city: 'Novi Sad', status: 'Sent', color: '#3B6D11', bg: '#EAF3DE' },
-                  { name: 'Stefan M.', city: 'Niš', status: 'Ready', color: '#854F0B', bg: '#FAEEDA' },
-                  { name: 'Jovana K.', city: 'Kragujevac', status: 'Delivered', color: '#185FA5', bg: '#E6F1FB' },
+                  { name: 'Jake M.', city: 'Austin TX', status: 'Ready', color: '#854F0B', bg: '#FAEEDA' },
+                  { name: 'Sarah K.', city: 'Denver CO', status: 'Sent', color: '#3B6D11', bg: '#EAF3DE' },
+                  { name: 'Chris D.', city: 'Portland OR', status: 'Ready', color: '#854F0B', bg: '#FAEEDA' },
+                  { name: 'Emily R.', city: 'Seattle WA', status: 'Delivered', color: '#185FA5', bg: '#E6F1FB' },
                 ].map(s => (
                   <div key={s.name} className={styles.dashRow}>
                     <span className={styles.dashRowName}>{s.name}</span>
