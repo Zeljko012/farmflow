@@ -64,9 +64,14 @@ export default function OrderManagement() {
   const [fCod, setFCod] = useState(0)
   const [fIban, setFIban] = useState('')
   const [fContents, setFContents] = useState('')
+  const [fItems, setFItems] = useState([]) // packing items list
+  const [fItemInput, setFItemInput] = useState('')
   const [fWeight, setFWeight] = useState(0)
   const [fNotes, setFNotes] = useState('')
   const [selectedSales, setSelectedSales] = useState([])
+
+  // Per-shipment checklist state: { [shipmentId]: { [itemIndex]: bool } }
+  const [checklists, setChecklists] = useState({})
 
   useEffect(() => {
     if (!user) return
@@ -106,13 +111,14 @@ export default function OrderManagement() {
       weight_grams: gn(fWeight),
       notes: fNotes.trim(),
       status: 'pending',
+      packing_items: fItems,
     }
     const { data, error } = await supabase.from('shipments').insert(row).select().single()
     if (!error && data) {
       setShipments(prev => [data, ...prev])
       setFName(''); setFPhone(''); setFAddr(''); setFCity(''); setFPostal('')
       setFCountry('Serbia'); setFCod(0); setFIban(''); setFContents('')
-      setFWeight(0); setFNotes(''); setSelectedSales([])
+      setFWeight(0); setFNotes(''); setSelectedSales([]); setFItems([]); setFItemInput('')
       setTab('pending')
     }
   }
@@ -138,14 +144,33 @@ export default function OrderManagement() {
     setSelectedSales(prev => prev.find(s => s.id === sale.id) ? prev.filter(s => s.id !== sale.id) : [...prev, sale])
   }
 
+  function toggleCheckItem(shipId, idx) {
+    setChecklists(prev => {
+      const current = prev[shipId] || {}
+      return { ...prev, [shipId]: { ...current, [idx]: !current[idx] } }
+    })
+  }
+
+  function addPackingItem() {
+    if (!fItemInput.trim()) return
+    setFItems(prev => [...prev, fItemInput.trim()])
+    setFItemInput('')
+  }
+
   const pending = shipments.filter(s => s.status === 'pending')
   const history = shipments.filter(s => s.status !== 'pending')
   const sentCount = shipments.filter(s => s.status === 'sent' || s.status === 'delivered').length
   const codTotal = shipments.filter(s => s.status === 'sent' || s.status === 'delivered').reduce((a, s) => a + (s.cod_amount || 0), 0)
   const deliveredCount = shipments.filter(s => s.status === 'delivered').length
 
-  function ShipmentCard({ s, showHistory }) {
+  function ShipmentCard({ s }) {
     const isTracking = trackingId === s.id
+    const items = s.packing_items || []
+    const checked = checklists[s.id] || {}
+    const checkedCount = items.filter((_, i) => checked[i]).length
+    const allChecked = items.length > 0 && checkedCount === items.length
+    const hasItems = items.length > 0
+
     return (
       <div style={css.shipCard}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
@@ -156,6 +181,58 @@ export default function OrderManagement() {
           </div>
           <span style={css.badge(s.status)}>{STATUS_LABELS[s.status]}</span>
         </div>
+
+        {/* PACKING CHECKLIST */}
+        {hasItems && s.status === 'pending' && (
+          <div style={{
+            background: allChecked ? '#EAF3DE' : '#FCEBEB',
+            border: `1px solid ${allChecked ? '#3B6D11' : '#fca5a5'}`,
+            borderRadius: '10px',
+            padding: '12px 14px',
+            marginBottom: '12px',
+            transition: 'all 0.3s',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '600', color: allChecked ? '#3B6D11' : '#dc2626', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                {allChecked ? '✅' : '📦'} Packing checklist
+              </div>
+              <div style={{ fontSize: '11px', color: allChecked ? '#3B6D11' : '#dc2626', fontFamily: 'var(--mono)' }}>
+                {checkedCount}/{items.length} packed
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {items.map((item, i) => (
+                <div
+                  key={i}
+                  onClick={() => toggleCheckItem(s.id, i)}
+                  style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', padding: '4px 0' }}
+                >
+                  <div style={{
+                    width: '18px', height: '18px', borderRadius: '4px', flexShrink: 0,
+                    border: `2px solid ${checked[i] ? '#3B6D11' : '#dc2626'}`,
+                    background: checked[i] ? '#3B6D11' : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    transition: 'all 0.15s',
+                  }}>
+                    {checked[i] && <span style={{ color: 'white', fontSize: '11px', fontWeight: '700' }}>✓</span>}
+                  </div>
+                  <span style={{
+                    fontSize: '13px',
+                    color: checked[i] ? '#3B6D11' : '#dc2626',
+                    textDecoration: checked[i] ? 'line-through' : 'none',
+                    opacity: checked[i] ? 0.7 : 1,
+                    transition: 'all 0.15s',
+                  }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            {allChecked && (
+              <div style={{ marginTop: '10px', fontSize: '12px', color: '#3B6D11', fontWeight: '500' }}>
+                ✅ All items packed — ready to send!
+              </div>
+            )}
+          </div>
+        )}
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', marginBottom: '12px' }}>
           {s.contents && (
@@ -307,6 +384,44 @@ export default function OrderManagement() {
             <div style={{ ...css.field, marginBottom: '12px' }}>
               <label style={css.label}>Additional description</label>
               <textarea style={css.textarea} value={fContents} onChange={e => setFContents(e.target.value)} placeholder="e.g. 2x Phone stand, 1x Cable holder (optional)" />
+            </div>
+
+            {/* PACKING ITEMS CHECKLIST */}
+            <div style={{ marginBottom: '12px' }}>
+              <label style={{ ...css.label, marginBottom: '6px', display: 'block' }}>
+                Packing checklist <span style={{ opacity: 0.5 }}>(optional — add items to check off when packing)</span>
+              </label>
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '8px' }}>
+                <input
+                  style={{ ...css.input, flex: 1 }}
+                  value={fItemInput}
+                  onChange={e => setFItemInput(e.target.value)}
+                  onKeyDown={e => e.key === 'Enter' && addPackingItem()}
+                  placeholder="e.g. Phone stand x2, Bubble wrap, Invoice..."
+                />
+                <button
+                  onClick={addPackingItem}
+                  style={{ ...css.btnSm, padding: '10px 16px', flexShrink: 0 }}
+                >
+                  + Add
+                </button>
+              </div>
+              {fItems.length > 0 && (
+                <div style={{ background: 'var(--surface2)', borderRadius: '8px', padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {fItems.map((item, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '13px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ color: '#dc2626', fontSize: '16px' }}>○</span>
+                        <span>{item}</span>
+                      </div>
+                      <button
+                        onClick={() => setFItems(prev => prev.filter((_, j) => j !== i))}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', fontSize: '16px', padding: '0 4px' }}
+                      >×</button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div style={css.g2}>
