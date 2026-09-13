@@ -53,10 +53,10 @@ export default function CostCalculator() {
   const barPct = Math.min(100, Math.max(0, Math.round((profit / Math.max(suggestedPrice, 0.01)) * 100)))
 
   // What-if calculations
+  const wiFeePct = platFee / 100
   const sliderMin = Math.max(0.01, parseFloat((base * 0.5).toFixed(2)))
   const sliderMax = parseFloat((base / (1 - 0.99 - wiFeePct)).toFixed(2))
   const activePrice = whatIfPrice !== null ? whatIfPrice : suggestedPrice
-  const wiFeePct = platFee / 100
   const wiFeeAmt = activePrice * wiFeePct
   const wiProfit = activePrice - base - wiFeeAmt
   const wiMargin = activePrice > 0 ? Math.round((wiProfit / activePrice) * 100) : 0
