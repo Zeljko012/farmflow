@@ -71,12 +71,17 @@ export default function OrderManagement() {
   const [selectedSales, setSelectedSales] = useState([])
 
   // Per-shipment checklist state: { [shipmentId]: { [itemIndex]: bool } }
-  const [checklists, setChecklists] = useState(() => {
-    try {
-      const saved = localStorage.getItem('farmflow_checklists')
-      return saved ? JSON.parse(saved) : {}
-    } catch { return {} }
-  })
+  const [checklists, setChecklists] = useState({})
+
+  useEffect(() => {
+    if (shipments.length > 0) {
+      const fromDb = {}
+      shipments.forEach(s => {
+        if (s.checklist_state) fromDb[s.id] = s.checklist_state
+      })
+      setChecklists(fromDb)
+    }
+  }, [shipments])
 
   useEffect(() => {
     if (!user) return
@@ -149,11 +154,15 @@ export default function OrderManagement() {
     setSelectedSales(prev => prev.find(s => s.id === sale.id) ? prev.filter(s => s.id !== sale.id) : [...prev, sale])
   }
 
-  function toggleCheckItem(shipId, idx) {
+  async function toggleCheckItem(shipId, idx) {
     setChecklists(prev => {
       const current = prev[shipId] || {}
       const updated = { ...prev, [shipId]: { ...current, [idx]: !current[idx] } }
-      try { localStorage.setItem('farmflow_checklists', JSON.stringify(updated)) } catch {}
+      // Save to Supabase async
+      supabase.from('shipments')
+        .update({ checklist_state: updated[shipId] })
+        .eq('id', shipId)
+        .then(() => {})
       return updated
     })
   }
